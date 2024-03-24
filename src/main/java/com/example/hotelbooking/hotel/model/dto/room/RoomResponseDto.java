@@ -21,4 +21,6 @@ public class RoomResponseDto {
     private LocalDateTime DateAndTimeWhenRoomWillBeOccupied;
 
     private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
+
+    private Integer roomPrice;
 }

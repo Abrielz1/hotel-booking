@@ -68,6 +68,10 @@ public class RoomServiceImpl implements RoomService {
             room.setDateAndTimeWhenRoomWillBeOccupied(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied());
         }
 
+        if (roomToUpdateInHotel.getRoomPrice() != null) {
+            room.setRoomPrice(roomToUpdateInHotel.getRoomPrice());
+        }
+
         return RoomMapper.ROOM_MAPPER.toRoomResponseDto(roomRepository.save(room));
     }
 

@@ -34,4 +34,8 @@ public class RoomNewDto {
 
     @Future
     private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
+
+    @NotBlank
+    @Positive
+    private Integer roomPrice;
 }

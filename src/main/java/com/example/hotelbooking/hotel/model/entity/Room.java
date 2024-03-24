@@ -49,6 +49,9 @@ public class Room {
     @Column(name = "room_available", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
 
+    @Column(name = "room_price", nullable = false)
+    private Integer roomPrice;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "hotel_id")
     @ToString.Exclude
