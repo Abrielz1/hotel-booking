@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class RoomResponseDto {
 
+    private Long id;
+
     private String roomName;
 
     private String RoomDescription;

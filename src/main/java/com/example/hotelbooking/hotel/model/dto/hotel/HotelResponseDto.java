@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class HotelResponseDto {
 
+    private Long id;
+
     private String hotelName;
 
     private String displayName;
