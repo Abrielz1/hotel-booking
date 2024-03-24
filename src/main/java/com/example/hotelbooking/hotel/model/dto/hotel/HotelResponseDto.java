@@ -1,4 +1,4 @@
-package com.example.hotelbooking.hotel.model.dto;
+package com.example.hotelbooking.hotel.model.dto.hotel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

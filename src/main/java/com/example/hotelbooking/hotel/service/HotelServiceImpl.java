@@ -1,10 +1,11 @@
 package com.example.hotelbooking.hotel.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
-import com.example.hotelbooking.hotel.model.dto.HotelNewDto;
-import com.example.hotelbooking.hotel.model.dto.HotelResponseDto;
+import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
+import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
+import com.example.hotelbooking.hotel.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,8 @@ public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
 
+    private final RoomRepository roomRepository;
+
     @Override
     public List<HotelResponseDto> getListOfHotels(PageRequest page) {
         log.info("\nAll hotels accounts list were sent via hotels service at time: " + LocalDateTime.now() + "\n");
@@ -32,7 +35,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelResponseDto getHotelById(Long hotelId) {
+    public HotelResponseDto getHotelByHotelId(Long hotelId) {
         log.info("\nHotel was sent with id: %d via hotels service at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
@@ -78,7 +81,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
-    public HotelResponseDto removeHotelById(Long hotelId) {
+    public HotelResponseDto removeHotelByHotellId(Long hotelId) {
 
         Hotel hotelToRemove = checkHotelInDb(hotelId);
         hotelRepository.findById(hotelId).ifPresent(hotelRepository::delete);
