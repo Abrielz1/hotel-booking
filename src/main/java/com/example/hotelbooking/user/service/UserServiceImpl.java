@@ -2,8 +2,8 @@ package com.example.hotelbooking.user.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
 import com.example.hotelbooking.user.enums.RoleType;
-import com.example.hotelbooking.user.model.dto.UserNewDto;
-import com.example.hotelbooking.user.model.dto.UserResponseDto;
+import com.example.hotelbooking.user.model.dto.user.UserNewDto;
+import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
 import com.example.hotelbooking.user.model.entity.Role;
 import com.example.hotelbooking.user.model.entity.User;
 import com.example.hotelbooking.user.repository.UserRepository;

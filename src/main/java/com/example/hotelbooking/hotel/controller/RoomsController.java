@@ -18,23 +18,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
-@RequestMapping("/hotel/booking")
+@RequestMapping("/hotel-booking/{hotelId}/rooms")
 @RequiredArgsConstructor
 public class RoomsController {
 
     private final RoomService roomService;
 
-    @GetMapping("/{hotelId}")
+    @GetMapping("/{hotelId}/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto getRoomById(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                       @Positive @RequestParam(name = "roomId") Long roomId) {
+                                       @Positive @PathVariable(name = "roomId") Long roomId) {
 
         log.info(("\nHotel with hotelId: %d which containing room with roomId: %d" +
                 " was sent via rooms controller at time: ")
@@ -56,10 +55,10 @@ public class RoomsController {
         return roomService.creatNewRoomInHotel(hotelId, newRoomInHotel);
     }
 
-    @PutMapping("/{hotelId}")
+    @PutMapping("/{hotelId}/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto updateRoomInfoInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                                 @Positive @RequestParam(name = "roomId") Long roomId,
+                                                 @Positive @PathVariable(name = "roomId") Long roomId,
                                                  @NotBlank @Validated(Update.class)
                                                  @RequestBody RoomNewDto roomToUpdateInHotel) {
 
@@ -70,10 +69,10 @@ public class RoomsController {
         return roomService.updateRoomInfoInHotel(hotelId, roomId, roomToUpdateInHotel);
     }
 
-    @DeleteMapping("/{hotelId}")
+    @DeleteMapping("/{hotelId}/{roomId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public RoomResponseDto removeRoomInHotelByRoomId(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                                     @Positive @RequestParam(name = "roomId") Long roomId) {
+                                                     @Positive @PathVariable(name = "roomId") Long roomId) {
 
         log.info(("\nRoom with roomId: %d in hotel with hotelId: %d" +
                 " was deleted via rooms controller at time: ").formatted(roomId, hotelId)
