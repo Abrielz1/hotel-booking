@@ -1,8 +1,8 @@
 package com.example.hotelbooking.user.controller;
 
 import com.example.hotelbooking.common.Update;
-import com.example.hotelbooking.user.model.dto.UserNewDto;
-import com.example.hotelbooking.user.model.dto.UserResponseDto;
+import com.example.hotelbooking.user.model.dto.user.UserNewDto;
+import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
 import com.example.hotelbooking.user.service.UserService;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;

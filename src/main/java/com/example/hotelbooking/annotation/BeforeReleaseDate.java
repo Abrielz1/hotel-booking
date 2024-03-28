@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy = BeforeReleaseDateValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Past
-public @interface  BeforeReleaseDate {
+public @interface BeforeReleaseDate {
 
     String message() default "Date must not be before {value}";
     Class<?>[] groups() default {};

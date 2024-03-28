@@ -29,7 +29,7 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/hotels")
+@RequestMapping("/hotel-booking/hotels")
 @RequiredArgsConstructor
 public class HotelController {
 

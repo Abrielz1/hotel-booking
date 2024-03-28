@@ -2,8 +2,8 @@ package com.example.hotelbooking.user.controller;
 
 import com.example.hotelbooking.common.Create;
 import com.example.hotelbooking.user.enums.RoleType;
-import com.example.hotelbooking.user.model.dto.UserNewDto;
-import com.example.hotelbooking.user.model.dto.UserResponseDto;
+import com.example.hotelbooking.user.model.dto.user.UserNewDto;
+import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
 import com.example.hotelbooking.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

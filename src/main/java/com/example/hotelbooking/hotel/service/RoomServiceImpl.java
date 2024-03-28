@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -29,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
 
         Hotel hotel = checkHotelInDb(hotelId);
 
-        Room room = checkRoomInDb(roomId);
+        Room room = checkRoomInDb(hotelId, roomId);
 
         if (!hotel.getListOfAvailableRoomsToBook().contains(room)) {
             throw new ObjectNotFoundException("There no room in hotel!");
@@ -49,6 +51,7 @@ public class RoomServiceImpl implements RoomService {
         Hotel hotel = checkHotelInDb(hotelId);
         Room newRoom = new Room();
         newRoom.setHotel(hotel);
+        hotel.setListOfAvailableRoomsToBook(List.of(newRoom));
 
         log.info("\nRoom in hotel with hotelId; %d was created via rooms service at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
@@ -62,7 +65,7 @@ public class RoomServiceImpl implements RoomService {
                                                  Long roomId,
                                                  RoomNewDto roomToUpdateInHotel) {
 
-        Room room = checkRoomInDb(roomId);
+        Room room = checkRoomInDb(hotelId, roomId);
         Hotel hotel = checkHotelInDb(hotelId);
 
         if (roomToUpdateInHotel != null || hotel.getListOfAvailableRoomsToBook().contains(room)) {
@@ -81,14 +84,14 @@ public class RoomServiceImpl implements RoomService {
 
             if (roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable() != null &&
                     roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied()
-                            .isAfter(LocalDateTime.now()) &&
+                            .isAfter(LocalDate.now()) &&
                     roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable()
                             .isAfter(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied())) {
                 room.setDateAndTimeWhenRoomWillBeAvailable(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable());
             }
 
             if (roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied() != null &&
-                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied().isAfter(LocalDateTime.now()) &&
+                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied().isAfter(LocalDate.now()) &&
                     roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied()
                             .isBefore(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied())) {
                 room.setDateAndTimeWhenRoomWillBeOccupied(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied());
@@ -112,7 +115,7 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomResponseDto removeRoomInHotelByRoomId(Long hotelId, Long roomId) {
-        Room room = checkRoomInDb(roomId);
+        Room room = checkRoomInDb(hotelId, roomId);
         roomRepository.findById(roomId).ifPresent(roomRepository::delete);
 
         log.info(("\nRoom with roomId: %d in hotel with hotelId: %d" +
@@ -122,9 +125,9 @@ public class RoomServiceImpl implements RoomService {
         return RoomMapper.ROOM_MAPPER.toRoomResponseDto(room);
     }
 
-    private Room checkRoomInDb(Long roomId) {
-        log.warn("No Hotel for update");
-        return roomRepository.findById(roomId).orElseThrow(() ->
+    private Room checkRoomInDb(Long hotelId, Long roomId) {
+        log.warn("No Room in selected hotel");
+        return roomRepository.getRoom(hotelId,roomId).orElseThrow(() ->
                 new ObjectNotFoundException("Room not present!"));
     }
 

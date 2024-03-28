@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Table(name = "table")
+@Table(name = "hotels")
 @Entity
 @Getter
 @Setter
