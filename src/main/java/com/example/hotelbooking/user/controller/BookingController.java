@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,6 +41,8 @@ public class BookingController {
     public List<BookingResponseDto> sendAllUserAccountsBookingList(
                                                                    @Positive @PathVariable(name = "hotelId") Long hotelId,
                                                                    @Positive @PathVariable(name = "roomId") Long roomId,
+                                                                   @RequestParam LocalDate start,
+                                                                   @RequestParam LocalDate end,
                                                                    @PositiveOrZero @RequestParam(defaultValue = "0")
                                                                    Integer from,
                                                                    @Positive @RequestParam(defaultValue = "10")
@@ -48,19 +52,20 @@ public class BookingController {
                 + " at time: " + LocalDateTime.now() + "\n");
         PageRequest page = PageRequest.of(from / size, size);
 
-        return bookingService.sendAllUserAccountsBookingList(hotelId, roomId, page);
+        return bookingService.sendAllUserAccountsBookingList(hotelId, roomId, start, end, page);
     }
 
     @PostMapping("/check-in")
     @ResponseStatus(HttpStatus.CREATED)
     public BookingResponseDto createCheckIn(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                             @Positive @PathVariable(name = "roomId") Long roomId,
+                                            @Positive @RequestParam Long userId,
                                             @NotNull @Validated(Create.class)
                                             @RequestBody BookingNewDto newCheckIn) {
 
         log.info("\nCheck in user were create from bookings controller"
                 + " at time: " + LocalDateTime.now() + "\n");
 
-        return bookingService.createCheckIn(hotelId, roomId, newCheckIn);
+        return bookingService.createCheckIn(hotelId, roomId, userId, newCheckIn);
     }
  }

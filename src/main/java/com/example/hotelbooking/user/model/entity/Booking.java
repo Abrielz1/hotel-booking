@@ -15,10 +15,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
-@Table
+@Table(name = "bookings")
 @Entity
 @Builder
 @NoArgsConstructor
@@ -30,10 +30,10 @@ public class Booking {
     private Long id;
 
     @Column(name = "check_in", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime checkInRoom;
+    private LocalDate checkInRoom;
 
     @Column(name = "check_out", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime checkOutRoom;
+    private LocalDate checkOutRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

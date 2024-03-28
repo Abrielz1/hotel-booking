@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -30,10 +30,10 @@ public class RoomNewDto {
     private Short maximumRoomCapacity;
 
     @BeforeReleaseDate
-    private LocalDateTime DateAndTimeWhenRoomWillBeOccupied;
+    private LocalDate DateAndTimeWhenRoomWillBeOccupied;
 
     @Future
-    private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
+    private LocalDate DateAndTimeWhenRoomWillBeAvailable;
 
     @NotBlank
     @Positive

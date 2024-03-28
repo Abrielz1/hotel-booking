@@ -30,7 +30,7 @@ public class RoomsController {
 
     private final RoomService roomService;
 
-    @GetMapping("/{hotelId}/{roomId}")
+    @GetMapping("/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto getRoomById(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                        @Positive @PathVariable(name = "roomId") Long roomId) {
@@ -43,7 +43,7 @@ public class RoomsController {
         return roomService.getRoomById(hotelId, roomId);
     }
 
-    @PostMapping("/{hotelId}")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                @NotBlank @Validated(Create.class)
@@ -55,7 +55,7 @@ public class RoomsController {
         return roomService.creatNewRoomInHotel(hotelId, newRoomInHotel);
     }
 
-    @PutMapping("/{hotelId}/{roomId}")
+    @PutMapping("/{roomId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto updateRoomInfoInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                  @Positive @PathVariable(name = "roomId") Long roomId,
@@ -69,7 +69,7 @@ public class RoomsController {
         return roomService.updateRoomInfoInHotel(hotelId, roomId, roomToUpdateInHotel);
     }
 
-    @DeleteMapping("/{hotelId}/{roomId}")
+    @DeleteMapping("/{roomId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public RoomResponseDto removeRoomInHotelByRoomId(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                      @Positive @PathVariable(name = "roomId") Long roomId) {

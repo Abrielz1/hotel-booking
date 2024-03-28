@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Table(name = "room")
+@Table(name = "rooms")
 @Entity
 @Getter
 @Setter
@@ -48,10 +48,10 @@ public class Room {
     private Short maximumRoomCapacity;
 
     @Column(name = "room_occupied", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime DateAndTimeWhenRoomWillBeOccupied;
+    private LocalDate DateAndTimeWhenRoomWillBeOccupied;
 
     @Column(name = "room_available", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
+    private LocalDate DateAndTimeWhenRoomWillBeAvailable;
 
     @Column(name = "room_price", nullable = false)
     private Integer roomPrice;

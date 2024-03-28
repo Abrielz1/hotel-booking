@@ -8,7 +8,7 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_20
 }
 
 configurations {
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
-	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
+//	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	//implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
