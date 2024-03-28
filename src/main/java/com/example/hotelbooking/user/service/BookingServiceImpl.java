@@ -7,7 +7,6 @@ import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
 import com.example.hotelbooking.hotel.repository.RoomRepository;
-import com.example.hotelbooking.user.mapper.BookingMapper;
 import com.example.hotelbooking.user.model.dto.booking.BookingNewDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingResponseDto;
 import com.example.hotelbooking.user.model.entity.Booking;
@@ -18,12 +17,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static com.example.hotelbooking.hotel.mapper.RoomMapper.ROOM_MAPPER;
 import static com.example.hotelbooking.user.mapper.BookingMapper.BOOKING_MAPPER;
 

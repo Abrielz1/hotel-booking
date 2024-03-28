@@ -49,11 +49,11 @@ public class Hotel {
     @Column(name = "distance-from_center", nullable = false)
     private Long distanceFromCenter;
 
-    @Column(name = "private ", nullable = true)
-    private Integer hotelValuation;
-
     @Column(name = "hotel_rating", nullable = true)
-    private Integer hotelRating;
+    private Short hotelRating;
+
+    @Column(name = "votes", nullable = true)
+    private Short numberOfVotes;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     @ToString.Exclude
