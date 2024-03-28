@@ -1,20 +1,24 @@
 package com.example.hotelbooking.hotel.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
-import com.example.hotelbooking.hotel.mapper.RoomMapper;
 import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
+import com.example.hotelbooking.hotel.model.entity.RoomFilter;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
 import com.example.hotelbooking.hotel.repository.RoomRepository;
+import com.example.hotelbooking.hotel.repository.RoomSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import static com.example.hotelbooking.hotel.mapper.RoomMapper.ROOM_MAPPER;
 
 @Slf4j
 @Service
@@ -25,6 +29,16 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
+
+    @Override
+    public List<RoomResponseDto> filteredByCriteria(Long hotelId, RoomFilter filter, PageRequest page) {
+        filter.setHotelId(hotelId);
+        return roomRepository.findAll(RoomSpecification.byRoomIdRoomNameInOutDatesAnRoomPrice(filter), page)
+                .stream()
+                .map(ROOM_MAPPER::toRoomResponseDto)
+                .collect(Collectors.toList());
+
+    }
 
     @Override
     public RoomResponseDto getRoomById(Long hotelId, Long roomId) {
@@ -42,7 +56,7 @@ public class RoomServiceImpl implements RoomService {
                 .formatted(hotelId, roomId)
                 + LocalDateTime.now() + "\n");
 
-        return RoomMapper.ROOM_MAPPER.toRoomResponseDto(room);
+        return ROOM_MAPPER.toRoomResponseDto(room);
     }
 
     @Override
@@ -56,8 +70,8 @@ public class RoomServiceImpl implements RoomService {
         log.info("\nRoom in hotel with hotelId; %d was created via rooms service at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
 
-        return RoomMapper.ROOM_MAPPER.toRoomResponseDto(
-                roomRepository.save(RoomMapper.ROOM_MAPPER.toRoom(newRoomInHotel)));
+        return ROOM_MAPPER.toRoomResponseDto(
+                roomRepository.save(ROOM_MAPPER.toRoom(newRoomInHotel)));
     }
 
     @Override
@@ -82,19 +96,19 @@ public class RoomServiceImpl implements RoomService {
                 room.setMaximumRoomCapacity(roomToUpdateInHotel.getMaximumRoomCapacity());
             }
 
-            if (roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable() != null &&
-                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied()
+            if (roomToUpdateInHotel.getDateWhenRoomWillBeAvailable() != null &&
+                    roomToUpdateInHotel.getDateWhenRoomWillBeOccupied()
                             .isAfter(LocalDate.now()) &&
-                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable()
-                            .isAfter(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied())) {
-                room.setDateAndTimeWhenRoomWillBeAvailable(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeAvailable());
+                    roomToUpdateInHotel.getDateWhenRoomWillBeAvailable()
+                            .isAfter(roomToUpdateInHotel.getDateWhenRoomWillBeOccupied())) {
+                room.setDateWhenRoomWillBeAvailable(roomToUpdateInHotel.getDateWhenRoomWillBeAvailable());
             }
 
-            if (roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied() != null &&
-                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied().isAfter(LocalDate.now()) &&
-                    roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied()
-                            .isBefore(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied())) {
-                room.setDateAndTimeWhenRoomWillBeOccupied(roomToUpdateInHotel.getDateAndTimeWhenRoomWillBeOccupied());
+            if (roomToUpdateInHotel.getDateWhenRoomWillBeOccupied() != null &&
+                    roomToUpdateInHotel.getDateWhenRoomWillBeOccupied().isAfter(LocalDate.now()) &&
+                    roomToUpdateInHotel.getDateWhenRoomWillBeOccupied()
+                            .isBefore(roomToUpdateInHotel.getDateWhenRoomWillBeOccupied())) {
+                room.setDateWhenRoomWillBeOccupied(roomToUpdateInHotel.getDateWhenRoomWillBeOccupied());
             }
 
             if (roomToUpdateInHotel.getRoomPrice() != null) {
@@ -110,7 +124,7 @@ public class RoomServiceImpl implements RoomService {
                 " %d was updated via rooms service at time: ").formatted(roomId, hotelId) +
                 LocalDateTime.now() + "\n");
 
-        return RoomMapper.ROOM_MAPPER.toRoomResponseDto(roomRepository.save(room));
+        return ROOM_MAPPER.toRoomResponseDto(roomRepository.save(room));
     }
 
     @Override
@@ -122,7 +136,7 @@ public class RoomServiceImpl implements RoomService {
                 " was deleted via rooms service at time: ").formatted(roomId, hotelId)
                 + LocalDateTime.now() + "\n");
 
-        return RoomMapper.ROOM_MAPPER.toRoomResponseDto(room);
+        return ROOM_MAPPER.toRoomResponseDto(room);
     }
 
     private Room checkRoomInDb(Long hotelId, Long roomId) {

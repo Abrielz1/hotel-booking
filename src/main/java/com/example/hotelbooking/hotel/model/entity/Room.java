@@ -48,10 +48,10 @@ public class Room {
     private Short maximumRoomCapacity;
 
     @Column(name = "room_occupied", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDate DateAndTimeWhenRoomWillBeOccupied;
+    private LocalDate dateWhenRoomWillBeOccupied;
 
     @Column(name = "room_available", columnDefinition = "TIMESTAMP", nullable = false)
-    private LocalDate DateAndTimeWhenRoomWillBeAvailable;
+    private LocalDate dateWhenRoomWillBeAvailable;
 
     @Column(name = "room_price", nullable = false)
     private Integer roomPrice;
