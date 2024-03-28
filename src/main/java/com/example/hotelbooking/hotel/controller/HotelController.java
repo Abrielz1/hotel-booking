@@ -69,9 +69,10 @@ public class HotelController {
     @ResponseStatus(HttpStatus.OK)
     public HotelResponseDto updateHotelInfo(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                             @NotBlank @Validated(Update.class)
-                                            @RequestBody  HotelNewDto hotelToUpdate) {
+                                            @RequestBody HotelNewDto hotelToUpdate) {
 
-        log.info("\nHotel with id: %d was updated via hotels controller at time: ".formatted(hotelId));
+        log.info("\nHotel with id: %d was updated via hotels controller at time: ".formatted(hotelId)
+                + LocalDateTime.now() + "\n");
 
         return hotelService.updateHotelInfo(hotelId, hotelToUpdate);
     }
@@ -84,5 +85,16 @@ public class HotelController {
                 + LocalDateTime.now() + "\n");
 
         return hotelService.removeHotelByHotellId(hotelId);
+    }
+
+    @PutMapping("/{hotelId}")
+    @ResponseStatus(HttpStatus.OK)
+    public HotelResponseDto updateHotelRating(@PathVariable(name = "hotelId") Long hotelId,
+                                              @NotBlank @Validated(Update.class)
+                                              @RequestBody HotelNewDto hotelToRatingUpdate) {
+
+        log.info("\nHotel with id: %d rating was updated via hotels controller at time: ".formatted(hotelId)
+                + LocalDateTime.now() + "\n");
+        return hotelService.updateHotelRating(hotelId, hotelToRatingUpdate);
     }
 }

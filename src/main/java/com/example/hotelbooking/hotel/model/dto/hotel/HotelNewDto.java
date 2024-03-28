@@ -33,4 +33,7 @@ public class HotelNewDto {
     @NotBlank
     @Positive
     private Long distanceFromCenter;
+
+    @Positive
+    private Short hotelRating;
 }

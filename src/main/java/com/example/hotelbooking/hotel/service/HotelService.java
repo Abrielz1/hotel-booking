@@ -16,4 +16,6 @@ public interface HotelService {
     HotelResponseDto updateHotelInfo(Long hotelId, HotelNewDto hotelToUpdate);
 
     HotelResponseDto removeHotelByHotellId(Long hotelId);
+
+    HotelResponseDto updateHotelRating(Long hotelId, HotelNewDto hotelToRatingUpdate);
 }

@@ -53,7 +53,7 @@ public class HotelServiceImpl implements HotelService {
         Hotel hotelToUpdateFromDb = checkHotelInDb(hotelId);
 
         if (hotelToUpdate == null) {
-            log.warn("No room fields for update");
+            log.warn("No hotel fields for update");
             throw new ObjectNotFoundException("No hotel field to update!");
         }
 
@@ -92,6 +92,37 @@ public class HotelServiceImpl implements HotelService {
                 + LocalDateTime.now() + "\n");
 
         return HOTEL_MAPPER.toHotelResponseDto(hotelToRemove);
+    }
+
+    @Override
+    public HotelResponseDto updateHotelRating(Long hotelId, HotelNewDto hotelToRatingUpdate) {
+
+        Hotel hotelToUpdateFromDb = checkHotelInDb(hotelId);
+
+        if (hotelToRatingUpdate.getHotelRating() == null) {
+            log.warn("No rating for update");
+            throw new ObjectNotFoundException("No hotel field to update!");
+        }
+
+        short numberOfRating = (short) (hotelToUpdateFromDb.getNumberOfVotes() + 1);
+
+        hotelToUpdateFromDb.setNumberOfVotes(numberOfRating);
+
+        short rating = hotelToUpdateFromDb.getHotelRating();
+
+        short newMark = hotelToRatingUpdate.getHotelRating();
+
+        short tempTotalRating = (short) (rating * numberOfRating);
+
+        short totalRating = (short) (tempTotalRating - (rating + newMark));
+
+        short finalRating = (short) (totalRating / numberOfRating);
+
+        hotelToUpdateFromDb.setHotelRating(finalRating);
+
+        hotelRepository.save(hotelToUpdateFromDb);
+
+        return HOTEL_MAPPER.toHotelResponseDto(hotelToUpdateFromDb);
     }
 
     private Hotel checkHotelInDb(Long hotelId) {

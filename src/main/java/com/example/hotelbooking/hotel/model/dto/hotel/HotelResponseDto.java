@@ -23,7 +23,7 @@ public class HotelResponseDto {
 
     private Long distanceFromCenter;
 
-    private Integer hotelValuation;
+    private Short hotelRating;
 
-    private Integer hotelRating;
+    private Short numberOfVotes;
 }
