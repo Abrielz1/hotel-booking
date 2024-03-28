@@ -4,6 +4,7 @@ import com.example.hotelbooking.common.Create;
 import com.example.hotelbooking.common.Update;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
+import com.example.hotelbooking.hotel.model.entity.HotelFilter;
 import com.example.hotelbooking.hotel.service.HotelService;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +36,19 @@ import java.util.List;
 public class HotelController {
 
     private final HotelService hotelService;
+
+    @GetMapping("/find-by-criteria/{hotelId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<HotelResponseDto> findAllCriteria(
+            @Positive @PathVariable(name = "hotelId") Long hotelId,
+            @ModelAttribute HotelFilter filter,
+            @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+            @Positive @RequestParam(defaultValue = "10") Integer size) {
+
+        PageRequest page = PageRequest.of(from / size, size);
+        filter.setId(hotelId);
+        return hotelService.filteredByCriteria(filter, page);
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

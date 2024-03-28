@@ -34,22 +34,22 @@ public class Hotel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hotel_name", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
     private String hotelName;
 
-    @Column(name = "display_name", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "displa", columnDefinition = "VARCHAR(255)", nullable = false)
     private String displayName;
 
     @Column(name = "city", columnDefinition = "VARCHAR(255)", nullable = false)
     private String city;
 
-    @Column(name = "hotel_address", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "address", columnDefinition = "VARCHAR(255)", nullable = false)
     private String hotelAddress;
 
-    @Column(name = "distance-from_center", nullable = false)
+    @Column(name = "distance_from_center", nullable = false)
     private Long distanceFromCenter;
 
-    @Column(name = "hotel_rating", nullable = true)
+    @Column(name = "rating", nullable = true)
     private Short hotelRating;
 
     @Column(name = "votes", nullable = true)

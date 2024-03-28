@@ -16,7 +16,7 @@ public interface RoomSpecification {
                 .and(byRoomGuestMaximumRoomCapacity(filter.getMaximumRoomCapacity()))
                 .and(RoomByHotelId(filter.getHotelId()))
                 .and(RoomBetweenMinAndMaxPrice(filter.getRoomMinPrice(), filter.getRoomMaxPrice()))
-                .and(RoomBetweenDateAvailableWillBeOccupied(filter.getDateWhenRoomWillBeOccupied(),
+                .and(RoomDateAvailableAndDateWillBeOccupied(filter.getDateWhenRoomWillBeOccupied(),
                         filter.getDateWhenRoomWillBeAvailable()));
     }
 
@@ -64,94 +64,45 @@ public interface RoomSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("room").get("hotelId"), hotelId);
+            return cb.equal(root.get("room").get("id"), hotelId);
         };
     }
-
-//    static Specification<Room> RoomByMinPrice(Integer maxPrice) {
-//
-//        return (root, query, cb) -> {
-//
-//            if (maxPrice == null) {
-//                return null;
-//            }
-//
-//            return cb.equal(root.get("room").get("roomPrice"), maxPrice);
-//        };
-//    }
-//
-//    static Specification<Room> RoomByMaxPrice(Integer minPrice) {
-//
-//        return (root, query, cb) -> {
-//
-//            if (minPrice == null) {
-//                return null;
-//            }
-//
-//            return cb.equal(root.get("room").get("roomPrice"), minPrice);
-//        };
-//    }
-//
-//    static Specification<Room> RoomByDateWhenRoomWillBeOccupied(LocalDate whenRoomWillBeOccupied) {
-//
-//        return (root, query, cb) -> {
-//
-//            if (whenRoomWillBeOccupied == null) {
-//                return null;
-//            }
-//
-//            return cb.equal(root.get("room").get("dateWhenRoomWillBeOccupied"), whenRoomWillBeOccupied);
-//        };
-//    }
-//
-//    static Specification<Room> RoomByDateWhenRoomWillBeAvailable(LocalDate WhenRoomWillBeAvailable) {
-//
-//        return (root, query, cb) -> {
-//
-//            if (WhenRoomWillBeAvailable == null) {
-//                return null;
-//            }
-//
-//            return cb.equal(root.get("room").get("dateWhenRoomWillBeAvailable"), WhenRoomWillBeAvailable);
-//        };
-//    }
 
     static Specification<Room> RoomBetweenMinAndMaxPrice(Integer minPrice, Integer maxPrice) {
 
         return (root, query, cb) -> {
 
-            if (maxPrice == null || maxPrice == null) {
+            if (minPrice == null && maxPrice == null) {
                 return null;
             }
 
-            Predicate max = cb.gt(root.get("maxPrice"), maxPrice);
-            Predicate min = cb.lt(root.get("maxPrice"), minPrice);
+            if (minPrice == null) {
+                return cb.lessThanOrEqualTo(root.get("roomPrice"), maxPrice);
+            }
 
-            return cb.and(min, max);
+            if (maxPrice == null) {
+                return cb.greaterThanOrEqualTo(root.get("roomPrice"), minPrice);
+            }
+
+            Predicate max = cb.gt(root.get("roomPrice"), maxPrice);
+            Predicate min = cb.lt(root.get("roomPrice"), minPrice);
+
+            return cb.between(root.get("roomPrice"), min, max);
         };
     }
 
-    static Specification<Room> RoomBetweenDateAvailableWillBeOccupied(LocalDate whenRoomWillBeOccupied,
+    static Specification<Room> RoomDateAvailableAndDateWillBeOccupied(LocalDate whenRoomWillBeOccupied,
                                                                       LocalDate whenRoomWillBeAvailable) {
 
         return (root, query, cb) -> {
 
-            if (whenRoomWillBeOccupied == null || whenRoomWillBeAvailable == null) {
+            if (whenRoomWillBeOccupied == null && whenRoomWillBeAvailable == null) {
                 return null;
             }
 
 
-            return cb.and(cb.equal(root.get("whenRoomWillBeOccupied"), whenRoomWillBeOccupied),
-                    cb.equal(root.get("whenRoomWillBeAvailable"), whenRoomWillBeAvailable));
+            return cb.and(cb.equal(root.get("dateWhenRoomWillBeOccupied"), whenRoomWillBeOccupied),
+                    cb.equal(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeAvailable));
         };
     }
 }
-
-
-// todo:  ID комнаты;
-//      ○ заголовок;
-//      ○ минимальная и максимальная цена;
-//      ○ количество гостей в комнате;
-//      ○ дата заезда и дата выезда;
-//      ○ ID отеля.
-//cb.lessThan(whenRoomWillBeOccupied, root.get("whenRoomWillBeOccupied"), cb.greaterThan(root.get("WhenRoomWillBeAvailable"),WhenRoomWillBeAvailable)

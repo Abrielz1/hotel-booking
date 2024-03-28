@@ -38,22 +38,22 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "room_name", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
     private String roomName;
 
-    @Column(name = "room_description", columnDefinition = "VARCHAR(255)", nullable = false)
+    @Column(name = "description", columnDefinition = "VARCHAR(255)", nullable = false)
     private String RoomDescription;
 
-    @Column(name = "room_capacity", nullable = false)
+    @Column(name = "capacity", nullable = false)
     private Short maximumRoomCapacity;
 
-    @Column(name = "room_occupied", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "occupied", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDate dateWhenRoomWillBeOccupied;
 
-    @Column(name = "room_available", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "available", columnDefinition = "TIMESTAMP", nullable = false)
     private LocalDate dateWhenRoomWillBeAvailable;
 
-    @Column(name = "room_price", nullable = false)
+    @Column(name = "price", nullable = false)
     private Integer roomPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)

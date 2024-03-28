@@ -3,8 +3,11 @@ package com.example.hotelbooking.hotel.service;
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
+import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
+import com.example.hotelbooking.hotel.model.entity.HotelFilter;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
+import com.example.hotelbooking.hotel.repository.HotelSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import static com.example.hotelbooking.hotel.mapper.HotelMapper.HOTEL_MAPPER;
+import static com.example.hotelbooking.hotel.repository.HotelSpecification.byHotelIdAndHotelNameAndCityAndAddressAndDistanceAndHotelRating;
 
 @Slf4j
 @Service
@@ -21,6 +25,14 @@ import static com.example.hotelbooking.hotel.mapper.HotelMapper.HOTEL_MAPPER;
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
+
+    @Override
+    public List<HotelResponseDto> filteredByCriteria(HotelFilter filter, PageRequest page) {
+        return hotelRepository.findAll(byHotelIdAndHotelNameAndCityAndAddressAndDistanceAndHotelRating(filter),page)
+                .stream()
+                .map(HOTEL_MAPPER::toHotelResponseDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<HotelResponseDto> getListOfHotels(PageRequest page) {
