@@ -25,7 +25,7 @@ dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+	//implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
 	implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
 	implementation("org.projectlombok:lombok-mapstruct-binding:0.2.0")
