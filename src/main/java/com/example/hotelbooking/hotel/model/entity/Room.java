@@ -1,12 +1,13 @@
 package com.example.hotelbooking.hotel.model.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,49 +17,46 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Table(name = "table")
+
+@Table(name = "room")
 @Entity
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Hotel {
+public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "hotel_name", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String hotelName;
+    @Column(name = "room_name", columnDefinition = "VARCHAR(255)", nullable = false)
+    private String roomName;
 
-    @Column(name = "display_name", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String displayName;
+    @Column(name = "room_description", columnDefinition = "VARCHAR(255)", nullable = false)
+    private String RoomDescription;
 
-    @Column(name = "city", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String city;
+    @Column(name = "room_capacity", nullable = false)
+    private Short maximumRoomCapacity;
 
-    @Column(name = "hotel_address", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String hotelAddress;
+    @Column(name = "room_occupied", columnDefinition = "TIMESTAMP", nullable = false)
+    private LocalDateTime DateAndTimeWhenRoomWillBeOccupied;
 
-    @Column(name = "distance-from_center", nullable = false)
-    private Long distanceFromCenter;
+    @Column(name = "room_available", columnDefinition = "TIMESTAMP", nullable = false)
+    private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
 
-    @Column(name = "private ", nullable = true)
-    private Integer hotelValuation;
+    @Column(name = "room_price", nullable = false)
+    private Integer roomPrice;
 
-    @Column(name = "hotel_rating", nullable = true)
-    private Integer hotelRating;
-
-    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hotel_id")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    List<Room> listOfAvailableRoomsToBook = new ArrayList<>();
+    private Hotel hotel;
 
     @Override
     public final boolean equals(Object o) {
@@ -67,8 +65,8 @@ public class Hotel {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Hotel hotel = (Hotel) o;
-        return getId() != null && Objects.equals(getId(), hotel.getId());
+        Room room = (Room) o;
+        return getId() != null && Objects.equals(getId(), room.getId());
     }
 
     @Override

@@ -1,13 +1,13 @@
 package com.example.hotelbooking.exception;
 
+import com.example.hotelbooking.exception.exceptions.BadRequestException;
+import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.exception.exceptions.UnsupportedStateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import searchengine.exception.exceptions.BadRequestException;
-import searchengine.exception.exceptions.ObjectNotFoundException;
-import searchengine.exception.exceptions.UnsupportedStateException;
 
 @RestControllerAdvice
 @Slf4j
