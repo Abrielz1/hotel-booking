@@ -5,7 +5,6 @@ import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
-import com.example.hotelbooking.hotel.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +21,6 @@ import static com.example.hotelbooking.hotel.mapper.HotelMapper.HOTEL_MAPPER;
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
-
-    private final RoomRepository roomRepository;
 
     @Override
     public List<HotelResponseDto> getListOfHotels(PageRequest page) {
@@ -54,6 +51,11 @@ public class HotelServiceImpl implements HotelService {
     public HotelResponseDto updateHotelInfo(Long hotelId, HotelNewDto hotelToUpdate) {
 
         Hotel hotelToUpdateFromDb = checkHotelInDb(hotelId);
+
+        if (hotelToUpdate == null) {
+            log.warn("No room fields for update");
+            throw new ObjectNotFoundException("No hotel field to update!");
+        }
 
         if (StringUtils.hasText(hotelToUpdate.getHotelName())) {
             hotelToUpdateFromDb.setHotelName(hotelToUpdate.getHotelName());
@@ -93,6 +95,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     private Hotel checkHotelInDb(Long hotelId) {
+        log.warn("No Hotel for update");
         return hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new ObjectNotFoundException("hotel was not present"));
     }

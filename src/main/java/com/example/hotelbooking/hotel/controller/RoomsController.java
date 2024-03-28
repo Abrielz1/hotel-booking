@@ -2,8 +2,6 @@ package com.example.hotelbooking.hotel.controller;
 
 import com.example.hotelbooking.common.Create;
 import com.example.hotelbooking.common.Update;
-import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
-import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.service.RoomService;
@@ -33,26 +31,10 @@ public class RoomsController {
 
     private final RoomService roomService;
 
-    // todo:
-    //  создание комнаты;
-    //  редактирование комнаты;
-    //  удаление комнаты.
-
-//    @GetMapping
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<HotelResponseDto> getListOfAvailableRoomsToBook(@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-//                                                  @Positive @RequestParam(defaultValue = "10") Integer size) {
-//
-//        log.info("\nList of hotels were sent via hotels controller at time: " + LocalDateTime.now() + "\n");
-//        PageRequest page = PageRequest.of(from / size, size);
-//
-//        return roomService.getListOfAvailableRoomsToBook(page);
-//    }
-
     @GetMapping("/{hotelId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto getRoomById(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                        @Positive @RequestParam(name = "roomId") Long roomId) {
+                                       @Positive @RequestParam(name = "roomId") Long roomId) {
 
         log.info(("\nHotel with hotelId: %d which containing room with roomId: %d" +
                 " was sent via rooms controller at time: ")
@@ -65,8 +47,8 @@ public class RoomsController {
     @PostMapping("/{hotelId}")
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                                @NotBlank @Validated(Create.class)
-                                                @RequestBody RoomNewDto newRoomInHotel) {
+                                               @NotBlank @Validated(Create.class)
+                                               @RequestBody RoomNewDto newRoomInHotel) {
 
         log.info("\nRoom in hotel with hotelId; %d was created via rooms controller at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
@@ -77,9 +59,9 @@ public class RoomsController {
     @PutMapping("/{hotelId}")
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto updateRoomInfoInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                                  @Positive @RequestParam(name = "roomId") Long roomId,
-                                                  @NotBlank @Validated(Update.class)
-                                                  @RequestBody  RoomNewDto roomToUpdateInHotel) {
+                                                 @Positive @RequestParam(name = "roomId") Long roomId,
+                                                 @NotBlank @Validated(Update.class)
+                                                 @RequestBody RoomNewDto roomToUpdateInHotel) {
 
         log.info(("\nRoom with roomId: %d  in hotel with hotelId:" +
                 " %d was updated via rooms controller at time: ").formatted(roomId, hotelId) +
@@ -99,5 +81,4 @@ public class RoomsController {
 
         return roomService.removeRoomInHotelByRoomId(hotelId, roomId);
     }
-
 }
