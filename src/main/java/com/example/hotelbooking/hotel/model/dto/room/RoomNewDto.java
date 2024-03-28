@@ -30,10 +30,10 @@ public class RoomNewDto {
     private Short maximumRoomCapacity;
 
     @BeforeReleaseDate
-    private LocalDate DateAndTimeWhenRoomWillBeOccupied;
+    private LocalDate dateWhenRoomWillBeOccupied;
 
     @Future
-    private LocalDate DateAndTimeWhenRoomWillBeAvailable;
+    private LocalDate dateWhenRoomWillBeAvailable;
 
     @NotBlank
     @Positive

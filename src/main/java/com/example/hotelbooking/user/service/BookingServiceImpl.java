@@ -122,6 +122,6 @@ public class BookingServiceImpl implements BookingService {
     private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDateTime checkInRoom) {
 
         Room room = checkRoomInDb(hotelId, roomId);
-        return checkInRoom.isBefore(room.getDateAndTimeWhenRoomWillBeAvailable().atStartOfDay());
+        return checkInRoom.isBefore(room.getDateWhenRoomWillBeAvailable().atStartOfDay());
     }
 }
