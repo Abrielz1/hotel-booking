@@ -102,7 +102,7 @@ public class HotelController {
         return hotelService.removeHotelByHotellId(hotelId);
     }
 
-    @PutMapping("/{hotelId}")
+    @PutMapping("/{hotelId}/ratings")
     @ResponseStatus(HttpStatus.OK)
     public HotelResponseDto updateHotelRating(@PathVariable(name = "hotelId") Long hotelId,
                                               @NotBlank @Validated(Update.class)

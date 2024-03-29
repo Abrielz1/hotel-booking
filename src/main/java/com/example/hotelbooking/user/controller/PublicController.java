@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
-@RequestMapping("/hotel-booking/users/auth")
+@RequestMapping("/hotel-booking/auth")
 @RequiredArgsConstructor
 public class PublicController {
 
