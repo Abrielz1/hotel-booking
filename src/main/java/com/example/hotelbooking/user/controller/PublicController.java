@@ -28,7 +28,7 @@ public class PublicController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponseDto registerUserAccount(@Validated(Create.class)
-                                                   @RequestBody UserNewDto newUserAccount,
+                                               @RequestBody UserNewDto newUserAccount,
                                                @RequestParam(name = "role") RoleType role) {
         log.info("User Account was created via auth controller at" + " time: " + LocalDateTime.now());
 

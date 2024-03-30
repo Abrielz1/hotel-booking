@@ -1,7 +1,7 @@
 package com.example.hotelbooking.hotel.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
-import com.example.hotelbooking.hotel.mapper.ManualRoomMapper;
+import com.example.hotelbooking.hotel.mapper.RoomMapperManual;
 import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
@@ -19,8 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import static com.example.hotelbooking.hotel.mapper.ManualRoomMapper.toRoom;
-import static com.example.hotelbooking.hotel.mapper.ManualRoomMapper.toRoomResponseDto;
+import static com.example.hotelbooking.hotel.mapper.RoomMapperManual.toRoom;
+import static com.example.hotelbooking.hotel.mapper.RoomMapperManual.toRoomResponseDto;
 
 @Slf4j
 @Service
@@ -36,7 +36,7 @@ public class RoomServiceImpl implements RoomService {
         filter.setHotelId(hotelId);
         return roomRepository.findAll(RoomSpecification.byRoomIdRoomNameInOutDatesAnRoomPrice(filter), page)
                 .stream()
-                .map(ManualRoomMapper::toRoomResponseDto)
+                .map(RoomMapperManual::toRoomResponseDto)
                 .collect(Collectors.toList());
 
     }
@@ -46,7 +46,7 @@ public class RoomServiceImpl implements RoomService {
 
         return roomRepository.getAllRoomsInHotel(hotelId, page)
                 .stream()
-                .map(ManualRoomMapper::toRoomResponseDto)
+                .map(RoomMapperManual::toRoomResponseDto)
                 .collect(Collectors.toList());
     }
 

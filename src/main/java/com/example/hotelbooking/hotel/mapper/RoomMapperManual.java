@@ -6,7 +6,7 @@ import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
 import java.util.ArrayList;
 
-public class ManualRoomMapper {
+public class RoomMapperManual {
 
     public static Room toRoom(RoomNewDto newRoom, Hotel hotel) {
 
