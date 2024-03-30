@@ -42,7 +42,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<RoomResponseDto> getRoomsinHotelList(Long hotelId, PageRequest page) {
+    public List<RoomResponseDto> getRoomsInHotelList(Long hotelId, PageRequest page) {
 
         return roomRepository.getAllRoomsInHotel(hotelId, page)
                 .stream()
@@ -74,14 +74,13 @@ public class RoomServiceImpl implements RoomService {
     public RoomResponseDto creatNewRoomInHotel(Long hotelId, RoomNewDto newRoomInHotel) {
 
         Hotel hotel = checkHotelInDb(hotelId);
-        Room newRoom = toRoom(newRoomInHotel);
-        newRoom.setHotel(hotel);
+        Room newRoom = toRoom(newRoomInHotel, hotel);
         hotel.setListOfAvailableRoomsToBook(List.of(newRoom));
+
+        newRoom = roomRepository.save(newRoom);
 
         log.info("\nRoom in hotel with hotelId; %d was created via rooms service at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
-
-        newRoom = roomRepository.save(toRoom(newRoomInHotel));
 
         return toRoomResponseDto(newRoom);
     }

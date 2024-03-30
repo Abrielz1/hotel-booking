@@ -61,6 +61,22 @@ public class RoomsController {
         return roomService.getRoomById(hotelId, roomId);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<RoomResponseDto> getRoomsInHotelList(@Positive @PathVariable(name = "hotelId") Long hotelId,
+                                                     @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                                                     @Positive @RequestParam(defaultValue = "10") Integer size) {
+
+        log.info(("\nHotel with hotelId: %d which containing room in roomList" +
+                " was sent via rooms controller at time: ")
+                .formatted(hotelId)
+                + LocalDateTime.now() + "\n");
+
+        PageRequest page = PageRequest.of(from / size, size);
+
+        return roomService.getRoomsInHotelList(hotelId, page);
+    }
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,

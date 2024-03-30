@@ -2,11 +2,13 @@ package com.example.hotelbooking.hotel.mapper;
 
 import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
+import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
+import java.util.ArrayList;
 
 public class ManualRoomMapper {
 
-    public static Room toRoom(RoomNewDto newRoom) {
+    public static Room toRoom(RoomNewDto newRoom, Hotel hotel) {
 
         return Room.builder()
                 .roomName(newRoom.getRoomName())
@@ -15,6 +17,8 @@ public class ManualRoomMapper {
                 .dateWhenRoomWillBeOccupied(newRoom.getDateWhenRoomWillBeOccupied())
                 .dateWhenRoomWillBeAvailable(newRoom.getDateWhenRoomWillBeAvailable())
                 .roomPrice(newRoom.getRoomPrice())
+                .hotel(hotel)
+                .bookingList(new ArrayList<>())
                 .build();
     }
 

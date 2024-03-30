@@ -35,7 +35,9 @@ public interface RoomRepository extends JpaRepository<Room, Long>, JpaSpecificat
                            @Param("roomId") Long roomId);
 
     @Query(value = """
-           SELECT * FROM ROOMS as r JOIN hotels AS h on h.id = r.hotel_id
+           SELECT r.id, r.available, r.occupied, r.capacity, r.description, r.name, r.price, r.hotel_id  
+            FROM ROOMS as r JOIN HOTELS AS h
+            on r.hotel_id = h.id
            WHERE h.id = :hotelId
            """, nativeQuery = true)
     List<Room> getAllRoomsInHotel(@Param ("hotelId")Long hotelId, PageRequest page);

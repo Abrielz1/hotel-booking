@@ -10,7 +10,7 @@ import java.util.List;
 public interface RoomService {
     List<RoomResponseDto> filteredByCriteria(Long hotelId, RoomFilter filter, PageRequest page);
 
-    List<RoomResponseDto>getRoomsinHotelList(Long hotelId, PageRequest page);
+    List<RoomResponseDto> getRoomsInHotelList(Long hotelId, PageRequest page);
 
     RoomResponseDto getRoomById(Long hotelId, Long roomId);
 
