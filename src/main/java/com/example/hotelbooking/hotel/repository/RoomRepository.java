@@ -16,17 +16,11 @@ public interface RoomRepository extends JpaRepository<Room, Long>, JpaSpecificat
 
     @Query(value = """
           SELECT * FROM ROOMS as r join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId and available <= :date
+          WHERE h.id = :hotelId and available <= :targetDate
           """, nativeQuery = true)
     List<Room> getListOfRoomAvailableOnCurrentDate(@Param("hotelId") Long hotelId,
-                                                   @Param("date") LocalDate date);
-
-    @Query(value = """
-          SELECT * FROM ROOMS as r join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId and available > :currentDate
-          """, nativeQuery = true)
-    Room getRoomIsNotAvailableOnCurrentDate(@Param("hotelId") Long hotelId,
-                                            @Param("currentDate") LocalDate currentDate);
+                                                   @Param("targetDate") LocalDate targetDate,
+                                                   PageRequest page);
 
     @Query(value = """
           SELECT * FROM ROOMS WHERE hotel_id = :hotelId and id = :roomId

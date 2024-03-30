@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import static com.example.hotelbooking.user.mapper.BookingMapperManual.toBooking;
@@ -77,22 +78,32 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    public List<RoomResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId, LocalDate date) {
+    @Override
+    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId, LocalDate date, PageRequest page) {
 
-        return checkRoomsAvailability(hotelId, date)
+        return checkRoomsAvailability(hotelId, date, page)
                 .stream()
-                .map(RoomMapperManual::toRoomResponseDto)
+                .map(BookingMapperManual::toBookingResponseDto)
                 .collect(Collectors.toList());
     }
 
-//    public List<RoomResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId,
-//                                                                           LocalDate currentDate)) {
-//
-//        return checkRoomRoomsThatAreOccupied(hotelId, currentDate)
-//                .stream()
-//                .map(ROOM_MAPPER::toRoomResponseDto)
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public List<BookingResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId,
+                                                                              LocalDate targetDate,
+                                                                              PageRequest page) {
+
+        return checkRoomRoomsThatAreOccupied(hotelId, targetDate, page)
+                .stream()
+                .map(BookingMapperManual::toBookingResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private List<Booking> checkRoomRoomsThatAreOccupied(Long hotelId,
+                                                        LocalDate targetDate,
+                                                        PageRequest page) {
+
+        return bookingRepository.checkRoomRoomsThatAreOccupied(hotelId, targetDate, page);
+    }
 
     private Room checkRoomInDb(Long hotelId, Long roomId) {
         log.warn("No Room in selected hotel");
@@ -112,8 +123,8 @@ public class BookingServiceImpl implements BookingService {
                 new ObjectNotFoundException("User was not present"));
     }
 
-    private List<Room> checkRoomsAvailability(Long hotelId, LocalDate currentDate) {
-        return roomRepository.getListOfRoomAvailableOnCurrentDate(hotelId, currentDate);
+    private List<Booking> checkRoomsAvailability(Long hotelId, LocalDate targetDate, PageRequest page) {
+        return bookingRepository.getListOfRoomAvailableOnCurrentDate(hotelId, targetDate, page);
     }
 
     private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDate checkInRoom) {

@@ -64,4 +64,34 @@ public class BookingController {
 
         return bookingService.createCheckIn(hotelId, roomId, userId, newCheckIn);
     }
- }
+
+    @GetMapping("/check-free-rooms")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
+                                                                      @Positive @PathVariable(name = "roomId") Long roomId,
+                                                                      @RequestParam LocalDate targetDate,
+                                                                      @PositiveOrZero @RequestParam(defaultValue = "0")
+                                                                          Integer from,
+                                                                      @Positive @RequestParam(defaultValue = "10")
+                                                                          Integer size) {
+
+        PageRequest page = PageRequest.of(from / size, size);
+
+        return bookingService.sendListOfFreeRoomsOfCertainHotel(hotelId, targetDate, page);
+    }
+
+    @GetMapping("/check-occupied-rooms")
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookingResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel (@Positive @PathVariable(name = "hotelId") Long hotelId,
+                                                                               @Positive @PathVariable(name = "roomId") Long roomId,
+                                                                               @RequestParam LocalDate targetDate,
+                                                                               @PositiveOrZero @RequestParam(defaultValue = "0")
+                                                                                   Integer from,
+                                                                               @Positive @RequestParam(defaultValue = "10")
+                                                                                   Integer size){
+
+        PageRequest page = PageRequest.of(from / size, size);
+
+        return bookingService.sendListOfThatOccupiedRoomsOfCertainHotel(hotelId, targetDate, page);
+    }
+}

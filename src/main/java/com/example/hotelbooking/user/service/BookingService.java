@@ -1,5 +1,6 @@
 package com.example.hotelbooking.user.service;
 
+import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingNewDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingResponseDto;
 import org.springframework.data.domain.PageRequest;
@@ -20,4 +21,12 @@ public interface BookingService {
                                      Long roomId,
                                      Long userId,
                                      BookingNewDto newCheckIn);
+
+    List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId,
+                                                               LocalDate targetDate,
+                                                               PageRequest page);
+
+    List<BookingResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId,
+                                              LocalDate targetDate,
+                                              PageRequest page);
 }
