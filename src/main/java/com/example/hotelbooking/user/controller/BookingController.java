@@ -4,7 +4,6 @@ import com.example.hotelbooking.common.Create;
 import com.example.hotelbooking.user.model.dto.booking.BookingNewDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingResponseDto;
 import com.example.hotelbooking.user.service.BookingService;
-import com.example.hotelbooking.user.service.UserService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,8 +29,6 @@ import java.util.List;
 @RequestMapping("/hotel-booking/{hotelId}/{roomId}")
 @RequiredArgsConstructor
 public class BookingController {
-
-    private final UserService userService;
 
     private final BookingService bookingService;
 

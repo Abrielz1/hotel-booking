@@ -2,11 +2,13 @@ package com.example.hotelbooking.user.service;
 
 import com.example.hotelbooking.exception.exceptions.BadRequestException;
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.hotel.mapper.RoomMapperManual;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
 import com.example.hotelbooking.hotel.repository.RoomRepository;
+import com.example.hotelbooking.user.mapper.BookingMapperManual;
 import com.example.hotelbooking.user.model.dto.booking.BookingNewDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingResponseDto;
 import com.example.hotelbooking.user.model.entity.Booking;
@@ -18,11 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import static com.example.hotelbooking.hotel.mapper.RoomMapper.ROOM_MAPPER;
-import static com.example.hotelbooking.user.mapper.BookingMapper.BOOKING_MAPPER;
+import static com.example.hotelbooking.user.mapper.BookingMapperManual.toBooking;
+import static com.example.hotelbooking.user.mapper.BookingMapperManual.toBookingResponseDto;
 
 @Slf4j
 @Service
@@ -50,7 +51,7 @@ public class BookingServiceImpl implements BookingService {
                                                                  end,
                                                                  page)
                 .stream()
-                .map(BOOKING_MAPPER::toBookingResponseDto)
+                .map(BookingMapperManual::toBookingResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -68,14 +69,11 @@ public class BookingServiceImpl implements BookingService {
             throw new BadRequestException("Room currently in use");
         }
 
-        Booking newBook = new Booking();
-
-        newBook.setUser(user);
-        newBook.setRoom(room);
+        Booking newBook = toBooking(newCheckIn, user, room);
         user.setBookingList(List.of(newBook));
         bookingRepository.save(newBook);
 
-        return BOOKING_MAPPER.toBookingResponseDto(newBook);
+        return toBookingResponseDto(newBook);
     }
 
 
@@ -83,13 +81,12 @@ public class BookingServiceImpl implements BookingService {
 
         return checkRoomsAvailability(hotelId, date)
                 .stream()
-                .map(ROOM_MAPPER::toRoomResponseDto)
+                .map(RoomMapperManual::toRoomResponseDto)
                 .collect(Collectors.toList());
     }
 
-//    public List<RoomResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId) {
-//
-//        LocalDate currentDate = LocalDate.now();
+//    public List<RoomResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId,
+//                                                                           LocalDate currentDate)) {
 //
 //        return checkRoomRoomsThatAreOccupied(hotelId, currentDate)
 //                .stream()
@@ -119,9 +116,9 @@ public class BookingServiceImpl implements BookingService {
         return roomRepository.getListOfRoomAvailableOnCurrentDate(hotelId, currentDate);
     }
 
-    private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDateTime checkInRoom) {
+    private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDate checkInRoom) {
 
         Room room = checkRoomInDb(hotelId, roomId);
-        return checkInRoom.isBefore(room.getDateWhenRoomWillBeAvailable().atStartOfDay());
+        return checkInRoom.isBefore(room.getDateWhenRoomWillBeAvailable());
     }
 }

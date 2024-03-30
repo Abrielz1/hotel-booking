@@ -1,6 +1,7 @@
 package com.example.hotelbooking.hotel.model.entity;
 
 import com.example.hotelbooking.user.model.entity.Booking;
+import com.example.hotelbooking.user.model.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -82,5 +83,13 @@ public class Room {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    public static void toBookRoom(Room room, User user) {
+
+        Booking booking = new Booking();
+        booking.setRoom(room);
+        booking.setUser(user);
+
     }
 }
