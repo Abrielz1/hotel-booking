@@ -57,6 +57,7 @@ public class Hotel {
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @Builder.Default
     @EqualsAndHashCode.Exclude
     List<Room> listOfAvailableRoomsToBook = new ArrayList<>();
 

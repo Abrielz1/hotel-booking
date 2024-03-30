@@ -1,6 +1,7 @@
 package com.example.hotelbooking.hotel.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.hotel.mapper.HotelMapperManual;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
@@ -30,7 +31,8 @@ public class HotelServiceImpl implements HotelService {
     public List<HotelResponseDto> filteredByCriteria(HotelFilter filter, PageRequest page) {
         return hotelRepository.findAll(byHotelIdAndHotelNameAndCityAndAddressAndDistanceAndHotelRating(filter),page)
                 .stream()
-                .map(HOTEL_MAPPER::toHotelResponseDto)
+               // .map(HOTEL_MAPPER::toHotelResponseDto)
+                .map(HotelMapperManual::hotelResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -39,7 +41,8 @@ public class HotelServiceImpl implements HotelService {
         log.info("\nAll hotels accounts list were sent via hotels service at time: " + LocalDateTime.now() + "\n");
         return hotelRepository.findAll(page)
                 .stream()
-                .map(HOTEL_MAPPER::toHotelResponseDto)
+           //     .map(HOTEL_MAPPER::toHotelResponseDto)
+                .map(HotelMapperManual::hotelResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -48,7 +51,7 @@ public class HotelServiceImpl implements HotelService {
         log.info("\nHotel was sent with id: %d via hotels service at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
-        return HOTEL_MAPPER.toHotelResponseDto(checkHotelInDb(hotelId));
+        return HotelMapperManual.hotelResponseDto(checkHotelInDb(hotelId));
     }
 
     @Override
@@ -56,7 +59,11 @@ public class HotelServiceImpl implements HotelService {
         log.info("\nHotel was created via hotels service at time: "
                 + LocalDateTime.now() + "\n");
 
-        return HOTEL_MAPPER.toHotelResponseDto(hotelRepository.save(HOTEL_MAPPER.toHotel(newHotel)));
+        Hotel newHotel1 = HotelMapperManual.toHotel(newHotel);
+
+        newHotel1 = hotelRepository.save(newHotel1);
+
+        return HotelMapperManual.hotelResponseDto(newHotel1);
     }
 
     @Override
@@ -91,7 +98,7 @@ public class HotelServiceImpl implements HotelService {
         log.info("\nHotel with id: %d was deleted via hotels service at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
-        return HOTEL_MAPPER.toHotelResponseDto(hotelRepository.save(hotelToUpdateFromDb));
+        return HotelMapperManual.hotelResponseDto(hotelRepository.save(hotelToUpdateFromDb));
     }
 
     @Override
@@ -103,7 +110,7 @@ public class HotelServiceImpl implements HotelService {
         log.info("\nHotel with id: %d was deleted via hotels service at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
-        return HOTEL_MAPPER.toHotelResponseDto(hotelToRemove);
+        return HotelMapperManual.hotelResponseDto(hotelToRemove);
     }
 
     @Override
@@ -134,7 +141,7 @@ public class HotelServiceImpl implements HotelService {
 
         hotelRepository.save(hotelToUpdateFromDb);
 
-        return HOTEL_MAPPER.toHotelResponseDto(hotelToUpdateFromDb);
+        return HotelMapperManual.hotelResponseDto(hotelToUpdateFromDb);
     }
 
     private Hotel checkHotelInDb(Long hotelId) {

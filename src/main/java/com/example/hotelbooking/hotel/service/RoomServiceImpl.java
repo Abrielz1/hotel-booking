@@ -1,6 +1,7 @@
 package com.example.hotelbooking.hotel.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.hotel.mapper.ManualRoomMapper;
 import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
@@ -18,7 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import static com.example.hotelbooking.hotel.mapper.RoomMapper.ROOM_MAPPER;
+import static com.example.hotelbooking.hotel.mapper.ManualRoomMapper.toRoom;
+import static com.example.hotelbooking.hotel.mapper.ManualRoomMapper.toRoomResponseDto;
 
 @Slf4j
 @Service
@@ -29,16 +31,25 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
-
     @Override
     public List<RoomResponseDto> filteredByCriteria(Long hotelId, RoomFilter filter, PageRequest page) {
         filter.setHotelId(hotelId);
         return roomRepository.findAll(RoomSpecification.byRoomIdRoomNameInOutDatesAnRoomPrice(filter), page)
                 .stream()
-                .map(ROOM_MAPPER::toRoomResponseDto)
+                .map(ManualRoomMapper::toRoomResponseDto)
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<RoomResponseDto> getRoomsinHotelList(Long hotelId, PageRequest page) {
+
+        return roomRepository.getAllRoomsInHotel(hotelId, page)
+                .stream()
+                .map(ManualRoomMapper::toRoomResponseDto)
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public RoomResponseDto getRoomById(Long hotelId, Long roomId) {
@@ -56,22 +67,23 @@ public class RoomServiceImpl implements RoomService {
                 .formatted(hotelId, roomId)
                 + LocalDateTime.now() + "\n");
 
-        return ROOM_MAPPER.toRoomResponseDto(room);
+        return toRoomResponseDto(room);
     }
 
     @Override
     public RoomResponseDto creatNewRoomInHotel(Long hotelId, RoomNewDto newRoomInHotel) {
 
         Hotel hotel = checkHotelInDb(hotelId);
-        Room newRoom = new Room();
+        Room newRoom = toRoom(newRoomInHotel);
         newRoom.setHotel(hotel);
         hotel.setListOfAvailableRoomsToBook(List.of(newRoom));
 
         log.info("\nRoom in hotel with hotelId; %d was created via rooms service at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
 
-        return ROOM_MAPPER.toRoomResponseDto(
-                roomRepository.save(ROOM_MAPPER.toRoom(newRoomInHotel)));
+        newRoom = roomRepository.save(toRoom(newRoomInHotel));
+
+        return toRoomResponseDto(newRoom);
     }
 
     @Override
@@ -124,7 +136,7 @@ public class RoomServiceImpl implements RoomService {
                 " %d was updated via rooms service at time: ").formatted(roomId, hotelId) +
                 LocalDateTime.now() + "\n");
 
-        return ROOM_MAPPER.toRoomResponseDto(roomRepository.save(room));
+        return toRoomResponseDto(roomRepository.save(room));
     }
 
     @Override
@@ -136,7 +148,7 @@ public class RoomServiceImpl implements RoomService {
                 " was deleted via rooms service at time: ").formatted(roomId, hotelId)
                 + LocalDateTime.now() + "\n");
 
-        return ROOM_MAPPER.toRoomResponseDto(room);
+        return toRoomResponseDto(room);
     }
 
     private Room checkRoomInDb(Long hotelId, Long roomId) {

@@ -42,18 +42,18 @@ public class Room {
     private String roomName;
 
     @Column(name = "description", columnDefinition = "VARCHAR(255)", nullable = false)
-    private String RoomDescription;
+    private String roomDescription;
 
-    @Column(name = "capacity", nullable = false)
+    @Column(name = "capacity")
     private Short maximumRoomCapacity;
 
-    @Column(name = "occupied", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "occupied", columnDefinition = "TIMESTAMP")
     private LocalDate dateWhenRoomWillBeOccupied;
 
-    @Column(name = "available", columnDefinition = "TIMESTAMP", nullable = false)
+    @Column(name = "available", columnDefinition = "TIMESTAMP")
     private LocalDate dateWhenRoomWillBeAvailable;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private Integer roomPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)

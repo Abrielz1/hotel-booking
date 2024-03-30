@@ -6,7 +6,6 @@ import com.example.hotelbooking.hotel.model.dto.room.RoomNewDto;
 import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.RoomFilter;
 import com.example.hotelbooking.hotel.service.RoomService;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/hotel-booking/{hotelId}/rooms")
+@RequestMapping("/hotel-booking/hotel/{hotelId}/rooms")
 @RequiredArgsConstructor
 public class RoomsController {
 
@@ -65,7 +64,7 @@ public class RoomsController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                               @NotBlank @Validated(Create.class)
+                                               @Validated(Create.class)
                                                @RequestBody RoomNewDto newRoomInHotel) {
 
         log.info("\nRoom in hotel with hotelId; %d was created via rooms controller at time: "
@@ -78,7 +77,7 @@ public class RoomsController {
     @ResponseStatus(HttpStatus.OK)
     public RoomResponseDto updateRoomInfoInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                  @Positive @PathVariable(name = "roomId") Long roomId,
-                                                 @NotBlank @Validated(Update.class)
+                                                 @Validated(Update.class)
                                                  @RequestBody RoomNewDto roomToUpdateInHotel) {
 
         log.info(("\nRoom with roomId: %d  in hotel with hotelId:" +

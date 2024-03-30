@@ -23,7 +23,7 @@ public class RoomNewDto {
 
     @Size(max=256)
     @NotBlank
-    private String RoomDescription;
+    private String roomDescription;
 
     @NotBlank
     @Positive

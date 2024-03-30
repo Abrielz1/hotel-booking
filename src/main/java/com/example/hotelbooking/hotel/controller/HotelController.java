@@ -73,7 +73,7 @@ public class HotelController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public HotelResponseDto creatNewHotel(@NotBlank @Validated(Create.class) @RequestBody HotelNewDto newHotel) {
+    public HotelResponseDto creatNewHotel(@Validated(Create.class) @RequestBody HotelNewDto newHotel) {
 
         log.info("\nHotel was created via hotels controller at time: " + LocalDateTime.now() + "\n");
 
@@ -83,7 +83,7 @@ public class HotelController {
     @PutMapping("/{hotelId}")
     @ResponseStatus(HttpStatus.OK)
     public HotelResponseDto updateHotelInfo(@Positive @PathVariable(name = "hotelId") Long hotelId,
-                                            @NotBlank @Validated(Update.class)
+                                            @Validated(Update.class)
                                             @RequestBody HotelNewDto hotelToUpdate) {
 
         log.info("\nHotel with id: %d was updated via hotels controller at time: ".formatted(hotelId)
