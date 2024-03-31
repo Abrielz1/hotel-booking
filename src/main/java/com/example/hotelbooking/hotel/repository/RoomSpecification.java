@@ -28,7 +28,7 @@ public interface RoomSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("room").get("id"), roomId);
+            return cb.equal(root.get("id"), roomId);
         };
     }
 
@@ -40,7 +40,7 @@ public interface RoomSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("room").get("name"), roomName);
+            return cb.equal(root.get("roomName"), roomName);
         };
     }
 
@@ -52,7 +52,7 @@ public interface RoomSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("room").get("maximumRoomCapacity"), roomCapacity);
+            return cb.equal(root.get("maximumRoomCapacity"), roomCapacity);
         };
     }
 
@@ -64,7 +64,7 @@ public interface RoomSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("room").get("id"), hotelId);
+            return cb.equal(root.get("hotel").get("id"), hotelId);
         };
     }
 
@@ -101,8 +101,10 @@ public interface RoomSpecification {
             }
 
 
-            return cb.and(cb.equal(root.get("dateWhenRoomWillBeOccupied"), whenRoomWillBeOccupied),
-                    cb.equal(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeAvailable));
+            return cb.and(cb.greaterThanOrEqualTo(root.get("dateWhenRoomWillBeOccupied"), whenRoomWillBeOccupied),
+                    cb.lessThanOrEqualTo(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeAvailable));
+
+//            return cb.between(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeOccupied, whenRoomWillBeAvailable);
         };
     }
 }
