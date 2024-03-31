@@ -76,4 +76,27 @@ public class UserController {
 
         return userService.deleteUsersAccountByUserId(userId);
     }
+
+    @GetMapping("/searchUserByUserName")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDto searchUserByUsername(@RequestParam(name = "userName") String userName) {
+
+        log.info(("\nUser with userName: %s" +
+                " was find via users controller at time: ").formatted(userName)
+                + LocalDateTime.now() + "\n");
+
+        return userService.searchUserInDbByUsername(userName);
+    }
+
+    @GetMapping("/userCheck")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponseDto checkUserInDbByFullCredentials(@RequestParam(name = "userName") String userName,
+                                                          @RequestParam(name = "email") String email) {
+
+        log.info(("\nUser with userName: %s" +
+                " and email: %s was find via users controller at time: ").formatted(userName, email)
+                + LocalDateTime.now() + "\n");
+
+        return userService.checkUserNyUserNameAndEmail(userName, email);
+    }
 }

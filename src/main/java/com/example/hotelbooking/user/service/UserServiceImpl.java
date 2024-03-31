@@ -93,6 +93,23 @@ public class UserServiceImpl implements UserService {
         return toUserResponseDto(userToDeleteById);
     }
 
+    @Override
+    public UserResponseDto searchUserInDbByUsername(String userName) {
+
+        User user = userRepository.searchNyUsername(userName).orElseThrow(() ->
+                new ObjectNotFoundException("User was not present"));
+        return toUserResponseDto(user);
+    }
+
+    @Override
+    public UserResponseDto checkUserNyUserNameAndEmail(String userName, String email) {
+
+        User user = userRepository.checkByUserNameAndEmail(userName,email ).orElseThrow(() ->
+                new ObjectNotFoundException("User was not present"));
+
+        return toUserResponseDto(user);
+    }
+
     private User checkUserInDb(Long userID) {
         log.warn("No Hotel for update");
         return userRepository.findById(userID).orElseThrow(() ->

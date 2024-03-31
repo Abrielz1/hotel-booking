@@ -17,4 +17,8 @@ public interface UserService {
     UserResponseDto updateUsersAccountByUserId(Long userId, UserNewDto updatedUserAccount);
 
     UserResponseDto deleteUsersAccountByUserId(Long userId);
+
+    UserResponseDto searchUserInDbByUsername(String userName);
+
+    UserResponseDto checkUserNyUserNameAndEmail(String userName, String email);
 }
