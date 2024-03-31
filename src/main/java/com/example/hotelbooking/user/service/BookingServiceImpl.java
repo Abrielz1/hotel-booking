@@ -2,9 +2,6 @@ package com.example.hotelbooking.user.service;
 
 import com.example.hotelbooking.exception.exceptions.BadRequestException;
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
-import com.example.hotelbooking.hotel.mapper.RoomMapperManual;
-import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
-import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.Room;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
 import com.example.hotelbooking.hotel.repository.RoomRepository;
@@ -20,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import static com.example.hotelbooking.user.mapper.BookingMapperManual.toBooking;
@@ -63,7 +59,7 @@ public class BookingServiceImpl implements BookingService {
                                             BookingNewDto newCheckIn) {
 
         User user = checkUserInDb(userId);
-        Hotel hotel = checkHotelInDb(hotelId);
+        checkHotelInDb(hotelId);
         Room room = checkRoomInDb(hotelId, roomId);
 
         if (!this.checkBookingOnSelectedDate(hotelId, roomId, newCheckIn.getCheckInRoom())) {
@@ -111,9 +107,9 @@ public class BookingServiceImpl implements BookingService {
                 new ObjectNotFoundException("Room not present!"));
     }
 
-    private Hotel checkHotelInDb(Long hotelId) {
+    private void checkHotelInDb(Long hotelId) {
         log.warn("No Hotel for update");
-        return hotelRepository.findById(hotelId).orElseThrow(() ->
+        hotelRepository.findById(hotelId).orElseThrow(() ->
                 new ObjectNotFoundException("Hotel not present!"));
     }
 

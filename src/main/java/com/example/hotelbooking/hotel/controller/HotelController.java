@@ -37,16 +37,14 @@ public class HotelController {
 
     private final HotelService hotelService;
 
-    @GetMapping("/find-by-criteria/{hotelId}")
+    @GetMapping("/find-by-criteria")
     @ResponseStatus(HttpStatus.OK)
     public List<HotelResponseDto> findAllCriteria(
-            @Positive @PathVariable(name = "hotelId") Long hotelId,
             @ModelAttribute HotelFilter filter,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
 
         PageRequest page = PageRequest.of(from / size, size);
-        filter.setId(hotelId);
         return hotelService.filteredByCriteria(filter, page);
     }
 
