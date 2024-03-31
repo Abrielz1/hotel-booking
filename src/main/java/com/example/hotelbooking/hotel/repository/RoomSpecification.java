@@ -103,8 +103,6 @@ public interface RoomSpecification {
 
             return cb.and(cb.greaterThanOrEqualTo(root.get("dateWhenRoomWillBeOccupied"), whenRoomWillBeOccupied),
                     cb.lessThanOrEqualTo(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeAvailable));
-
-//            return cb.between(root.get("dateWhenRoomWillBeAvailable"), whenRoomWillBeOccupied, whenRoomWillBeAvailable);
         };
     }
 }
