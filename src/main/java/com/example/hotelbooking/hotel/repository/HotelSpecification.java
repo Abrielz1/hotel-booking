@@ -26,7 +26,7 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotels").get("id"), hotelId);
+            return cb.equal(root.get("id"), hotelId);
         };
     }
 
@@ -37,7 +37,7 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotel").get("name"), hotelName);
+            return cb.equal(root.get("hotelName"), hotelName);
         };
     }
 
@@ -48,7 +48,7 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotel").get("display"), hotelDisplayName);
+            return cb.equal(root.get("displayName"), hotelDisplayName);
         };
     }
 
@@ -59,7 +59,7 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotel").get("city"), city);
+            return cb.equal(root.get("city"), city);
         };
     }
 
@@ -70,7 +70,7 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotel").get("hotelAddress"), hotelAddress);
+            return cb.equal(root.get("hotelAddress"), hotelAddress);
         };
     }
 
@@ -81,19 +81,23 @@ public interface HotelSpecification {
                 return null;
             }
 
-            return cb.equal(root.get("hotel").get("distanceFromCenter"), distanceFromCenter);
+            return cb.equal(root.get("distanceFromCenter"), distanceFromCenter);
         };
     }
 
     static Specification<Hotel> byHotelRatingAndNumberOfVotes(Short hotelRating, Short numberOfVotes) {
         return (root, query, cb) -> {
 
-            if (hotelRating == null && numberOfVotes == null) {
+            if (hotelRating == null) {
                 return null;
             }
 
-            Predicate hotelRatings =  cb.gt(root.get("hotelRating"), hotelRating);
-            Predicate numbersOfVotes = cb.lt(root.get("numberOfVotes"), numberOfVotes);
+            Predicate hotelRatings =  cb.equal(root.get("hotelRating"), hotelRating);
+            Predicate numbersOfVotes = cb.equal(root.get("numberOfVotes"), numberOfVotes);
+
+            if (numberOfVotes == null) {
+                return cb.equal(hotelRatings, hotelRating);
+            }
 
             return cb.and(hotelRatings, numbersOfVotes);
         };
