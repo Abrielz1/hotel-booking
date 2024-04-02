@@ -1,6 +1,6 @@
 package com.example.hotelbooking.statistics.listener;
 
-import com.example.hotelbooking.statistics.model.KafkaMessageDTO;
+import com.example.hotelbooking.statistics.model.KafkaMessage;
 import com.example.hotelbooking.statistics.service.KafkaMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class KafkaMessageListener {
     @KafkaListener(topics = "${app.kafka.topicToRead}",
                    groupId = "${app.kafka.kafkaMessageGroupId}",
                    containerFactory = "kafkaMessageConcurrentKafkaListenerContainerFactory")
-    public void receive(@Payload KafkaMessageDTO message,
+    public void receive(@Payload KafkaMessage message,
                         @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
 
         log.info("Received message: {}", message);
@@ -28,5 +28,6 @@ public class KafkaMessageListener {
 
         System.out.println("message: " + message + " time received in ms:" + System.currentTimeMillis());
         kafkaMessageService.addDTO(message);
+        kafkaMessageService.saveInDb(message);
     }
 }

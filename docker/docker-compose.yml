@@ -1,5 +1,13 @@
 version: '3'
 services:
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: example
   zookeeper:
     image: confluentinc/cp-zookeeper:6.2.0
     environment:
