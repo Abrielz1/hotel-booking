@@ -41,4 +41,28 @@ public class KafkaMessageListener {
 
         kafkaMessageService.saveInDbUserStatistics(message);
     }
+
+    @KafkaListener(topics = "${app.kafka.topicToWrite}",
+            groupId = "${app.kafka.kafkaMessageGroupId}",
+            containerFactory = "kafkaMessageConcurrentKafkaListenerContainerFactory")
+    public void receiver(@Payload KafkaMessage message,
+                        @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
+
+        log.info("Received topic: {}", topic);
+        log.info("Received message: {}", message);
+        log.info("Message: {}; Topic: {}, Time: {}", message, topic, LocalDateTime.now());
+
+        if (topic.equals("booking-statistics")) {
+
+            System.out.println("topic: " + topic + "message: " + message +
+                    " time received in ms:" + LocalDateTime.now());
+
+            kafkaMessageService.saveInDbBookingStatistics(message);
+        }
+
+        System.out.println("topic: " + topic + "message: " + message +
+                " time received in ms:" + LocalDateTime.now());
+
+        kafkaMessageService.saveInDbUserStatistics(message);
+    }
 }
