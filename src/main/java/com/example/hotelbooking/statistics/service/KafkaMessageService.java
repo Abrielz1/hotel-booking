@@ -19,7 +19,7 @@ public class KafkaMessageService {
 
     private final UserStatisticsRepository userStatisticsRepository;
 
-    BookingStatisticsRepository bookingStatisticsRepository;
+    private final BookingStatisticsRepository bookingStatisticsRepository;
 
     public void saveInDbUserStatistics(KafkaMessage message) {
 
@@ -43,7 +43,7 @@ public class KafkaMessageService {
 
         String type = message.getType();
 
-        if (!type.equals("booking")) {
+        if (!type.equals("booking-statistics")) {
             throw new  BadRequestException("Bad message type error!");
         }
 

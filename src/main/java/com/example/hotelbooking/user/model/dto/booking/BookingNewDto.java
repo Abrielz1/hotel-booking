@@ -16,10 +16,10 @@ import java.time.LocalDate;
 public class BookingNewDto {
 
     @NotNull
-    //@BeforeReleaseDate
+    @BeforeReleaseDate
     private LocalDate checkInRoom;
 
     @Future
-    //@NotNull
+    @NotNull
     private LocalDate checkOutRoom;
 }

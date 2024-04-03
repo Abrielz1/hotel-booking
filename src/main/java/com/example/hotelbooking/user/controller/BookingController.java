@@ -74,9 +74,10 @@ public class BookingController {
 
         KafkaMessage message = new KafkaMessage();
         message.setType("booking-statistics");
-        message.setMessage(List.of(bookingResponseDto.getUserId().toString(),
-                bookingResponseDto.getCheckInRoom().toString(),
-                bookingResponseDto.getCheckOutRoom().toString()));
+        String bookerId = bookingResponseDto.getUserId().toString();
+        String in = bookingResponseDto.getCheckInRoom().toString();
+        String out = bookingResponseDto.getCheckOutRoom().toString();
+        message.setMessage(List.of(bookerId, in, out));
         kafkaMessageService.saveInDbBookingStatistics(message);
 
         return bookingResponseDto;
