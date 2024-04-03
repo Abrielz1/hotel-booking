@@ -30,7 +30,7 @@ public class RoomMapperManual {
                 .roomDescription(roomResponse.getRoomDescription())
                 .maximumRoomCapacity(roomResponse.getMaximumRoomCapacity())
                 .dateAndWhenRoomWillBeOccupied(roomResponse.getDateWhenRoomWillBeOccupied())
-                .dateAndWhenRoomWillBeAvailable(roomResponse.getDateWhenRoomWillBeAvailable())
+                .dateWhenRoomWillBeAvailable(roomResponse.getDateWhenRoomWillBeAvailable())
                 .roomPrice(roomResponse.getRoomPrice())
                 .build();
     }

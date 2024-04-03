@@ -22,6 +22,7 @@ public class BookingMapperManual {
 
         return BookingResponseDto.builder()
                 .id(booking.getId())
+                .userId(booking.getUser().getId())
                 .checkInRoom(booking.getCheckInRoom())
                 .checkOutRoom(booking.getCheckOutRoom())
                 .build();

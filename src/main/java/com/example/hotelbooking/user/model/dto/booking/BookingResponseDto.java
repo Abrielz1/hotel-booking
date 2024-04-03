@@ -14,6 +14,8 @@ public class BookingResponseDto {
 
     private Long id;
 
+    private Long userId;
+
     private LocalDate checkInRoom;
 
     private LocalDate checkOutRoom;

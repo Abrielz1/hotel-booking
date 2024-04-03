@@ -1,6 +1,8 @@
 package com.example.hotelbooking.user.controller;
 
 import com.example.hotelbooking.common.Create;
+import com.example.hotelbooking.statistics.model.KafkaMessage;
+import com.example.hotelbooking.statistics.service.KafkaMessageService;
 import com.example.hotelbooking.user.model.dto.booking.BookingNewDto;
 import com.example.hotelbooking.user.model.dto.booking.BookingResponseDto;
 import com.example.hotelbooking.user.service.BookingService;
@@ -9,6 +11,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +33,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingController {
 
+    @Value("${app.kafka.topicToWrite}")
+    private String topic2;
+
     private final BookingService bookingService;
+
+    private final KafkaMessageService kafkaMessageService;
 
     @GetMapping("/bookings")
     @ResponseStatus(HttpStatus.OK)
@@ -62,7 +70,16 @@ public class BookingController {
         log.info("\nCheck in user were create from bookings controller"
                 + " at time: " + LocalDateTime.now() + "\n");
 
-        return bookingService.createCheckIn(hotelId, roomId, userId, newCheckIn);
+        BookingResponseDto bookingResponseDto = bookingService.createCheckIn(hotelId, roomId, userId, newCheckIn);
+
+        KafkaMessage message = new KafkaMessage();
+        message.setType("booking-statistics");
+        message.setMessage(List.of(bookingResponseDto.getUserId().toString(),
+                bookingResponseDto.getCheckInRoom().toString(),
+                bookingResponseDto.getCheckOutRoom().toString()));
+        kafkaMessageService.saveInDbBookingStatistics(message);
+
+        return bookingResponseDto;
     }
 
     @GetMapping("/check-free-rooms")
