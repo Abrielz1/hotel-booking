@@ -25,13 +25,13 @@ public class KafkaMessageService {
 
         String type = message.getType();
 
-        if (!type.equals("user")) {
-            throw new  BadRequestException("Bad message type error!");
-        }
-
-        if (message.getMessage() == null) {
-            throw new ObjectNotFoundException("Bad payload error!");
-        }
+//        if (!type.equals("user-statistics")) {
+//            throw new  BadRequestException("Bad message type error!");
+//        }
+//
+//        if (message.getMessage() == null) {
+//            throw new ObjectNotFoundException("Bad payload error!");
+//        }
 
         UserStatistics userStatistics = new UserStatistics();
 
