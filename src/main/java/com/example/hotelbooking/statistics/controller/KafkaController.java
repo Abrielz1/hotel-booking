@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class KafkaController {
 
+    @Value("${app.kafka.topicToRead}")
+    private String topic1;
+
     @Value("${app.kafka.topicToWrite}")
-    private String topic;
+    private String topic2;
 
     private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
 
@@ -29,8 +32,8 @@ public class KafkaController {
 
         log.info("User message send to kafka");
 
-        topic = message.getType();
-        kafkaTemplate.send(topic, message);
+        topic1 = message.getType();
+        kafkaTemplate.send(topic1, message);
 
         return "Message were send to kafka";
     }
@@ -41,8 +44,8 @@ public class KafkaController {
 
         log.info("Booking message was send to kafka");
 
-        topic = message.getType();
-        kafkaTemplate.send(topic, message);
+        topic2 = message.getType();
+        kafkaTemplate.send(topic2, message);
 
         return "Message were send to kafka";
     }
