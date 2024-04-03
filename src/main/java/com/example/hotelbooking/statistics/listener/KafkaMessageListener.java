@@ -9,6 +9,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Component
@@ -23,11 +24,21 @@ public class KafkaMessageListener {
     public void receive(@Payload KafkaMessage message,
                         @Header(value = KafkaHeaders.RECEIVED_TOPIC) String topic) {
 
+        log.info("Received topic: {}", topic);
         log.info("Received message: {}", message);
-        log.info("Message: {}; Topic: {}, Time: {}", message, topic, System.currentTimeMillis());
+        log.info("Message: {}; Topic: {}, Time: {}", message, topic, LocalDateTime.now());
 
-        System.out.println("message: " + message + " time received in ms:" + System.currentTimeMillis());
-        kafkaMessageService.addDTO(message);
-        kafkaMessageService.saveInDb(message);
+        if (topic.equals("booking-statistics")) {
+
+            System.out.println("topic: " + topic + "message: " + message +
+                    " time received in ms:" + LocalDateTime.now());
+
+            kafkaMessageService.saveInDbBookingStatistics(message);
+        }
+
+        System.out.println("topic: " + topic + "message: " + message +
+                " time received in ms:" + LocalDateTime.now());
+
+        kafkaMessageService.saveInDbUserStatistics(message);
     }
 }

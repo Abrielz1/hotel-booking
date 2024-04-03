@@ -2,12 +2,15 @@ package com.example.hotelbooking.statistics.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class KafkaMessage {
 
     private String type; // user or booking
 
-    private String message;
+    private List<String> message = new ArrayList<>();
 
     // В событии регистрации должны храниться данные о созданном пользователе (его ID).
 

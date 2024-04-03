@@ -26,7 +26,7 @@ spring:
 app:
   kafka:
     topicToRead: user-statistics, booking-statistics
-    topicToWrite: order-topic
+    topicToWrite: user-statistics, booking-statistics
     kafkaMessageGroupId: "kafka-message-group-id"
 
 

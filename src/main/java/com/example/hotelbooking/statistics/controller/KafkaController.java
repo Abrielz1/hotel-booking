@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/kafka")
+@RequestMapping("/hotel-booking/statistics")
 @RequiredArgsConstructor
 public class KafkaController {
 
@@ -23,11 +23,25 @@ public class KafkaController {
 
     private final KafkaTemplate<String, KafkaMessage> kafkaTemplate;
 
-    @PostMapping("/send")
+    @PostMapping("/send/user")
     @ResponseStatus(HttpStatus.OK)
-    public String sendMessage(@RequestBody KafkaMessage message) {
+    public String sendUserStatistics(@RequestBody KafkaMessage message) {
 
-        log.info("Message were send to kafka");
+        log.info("User message send to kafka");
+
+        topic = message.getType();
+        kafkaTemplate.send(topic, message);
+
+        return "Message were send to kafka";
+    }
+
+    @PostMapping("/send/booking")
+    @ResponseStatus(HttpStatus.OK)
+    public String sendBookingStatistics(@RequestBody KafkaMessage message) {
+
+        log.info("Booking message was send to kafka");
+
+        topic = message.getType();
         kafkaTemplate.send(topic, message);
 
         return "Message were send to kafka";

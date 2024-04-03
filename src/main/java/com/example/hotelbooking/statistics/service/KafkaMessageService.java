@@ -1,33 +1,62 @@
 package com.example.hotelbooking.statistics.service;
 
+import com.example.hotelbooking.exception.exceptions.BadRequestException;
+import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.statistics.model.BookingStatistics;
 import com.example.hotelbooking.statistics.model.KafkaMessage;
+import com.example.hotelbooking.statistics.model.UserStatistics;
+import com.example.hotelbooking.statistics.repository.BookingStatisticsRepository;
+import com.example.hotelbooking.statistics.repository.UserStatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class KafkaMessageService {
 
-    private final List<KafkaMessage> messages = new ArrayList<>();
+    private final UserStatisticsRepository userStatisticsRepository;
 
-    private final List<KafkaMessage> messagesDTO = new ArrayList<>();
+    BookingStatisticsRepository bookingStatisticsRepository;
 
-    public void add(KafkaMessage message) {
-        messages.add(message);
+    public void saveInDbUserStatistics(KafkaMessage message) {
+
+        String type = message.getType();
+
+        if (!type.equals("user")) {
+            throw new  BadRequestException("Bad message type error!");
+        }
+
+        if (message.getMessage() == null) {
+            throw new ObjectNotFoundException("Bad payload error!");
+        }
+
+        UserStatistics userStatistics = new UserStatistics();
+
+        userStatistics.setUserId(Long.parseLong(message.getMessage().get(0)));
+        userStatisticsRepository.save(userStatistics);
     }
 
-    public void addDTO(KafkaMessage messageDTO) {
-        messagesDTO.add(messageDTO);
-    }
+    public void saveInDbBookingStatistics(KafkaMessage message) {
 
-    public String print() {
-        return messages.toString();
-}
+        String type = message.getType();
 
-    public void saveInDb(KafkaMessage message) {
+        if (!type.equals("booking")) {
+            throw new  BadRequestException("Bad message type error!");
+        }
+
+        if (message.getMessage() == null) {
+            throw new ObjectNotFoundException("Bad payload error!");
+        }
+
+        BookingStatistics bookingStatistics = new BookingStatistics();
+
+        bookingStatistics.setUseId(Long.parseLong(message.getMessage().get(0)));
+        bookingStatistics.setIn(LocalDate.parse(message.getMessage().get(1)));
+        bookingStatistics.setOut(LocalDate.parse(message.getMessage().get(2)));
+
+        bookingStatisticsRepository.save(bookingStatistics);
     }
 }
