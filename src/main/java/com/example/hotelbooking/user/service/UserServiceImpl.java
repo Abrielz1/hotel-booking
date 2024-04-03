@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
         userToSave = userRepository.save(userToSave);
         log.info("\nUser account was created via users service at time: "
                 + LocalDateTime.now() + "\n");
+
         return toUserResponseDto(userToSave);
     }
 
