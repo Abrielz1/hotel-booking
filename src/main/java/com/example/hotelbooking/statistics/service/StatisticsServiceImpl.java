@@ -47,11 +47,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     public String printStatistics() {
 
-        long userStatistics = userStatisticsRepository.findAll().size();
-
-        long bookingStatistics = bookingStatisticsRepository.findAll().size();
-
-        String data = userStatistics + "," + bookingStatistics;
+        String data = sendUserStatistics() + "," + sendBookingStatisticsForAllTime();
 
         saveStatistics(data);
 
