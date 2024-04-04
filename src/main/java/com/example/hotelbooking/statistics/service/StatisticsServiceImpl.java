@@ -36,25 +36,25 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public String sendBookingStatisticsForTimePeriod(LocalDate in, LocalDate out) {
 
-        bookingStatisticsRepository.findBookingStatisticsByIdIsAndOut(in, out);
-        return null;
+        int size = bookingStatisticsRepository.findBookingStatisticsByIdIsAndOut(in, out).size();
+        return String.valueOf(size);
     }
 
-    public String saveStatistics() {
+    public void saveStatistics(String data) {
+
+        printer.save(data);
+    }
+
+    public String printStatistics() {
 
         long userStatistics = userStatisticsRepository.findAll().size();
 
         long bookingStatistics = bookingStatisticsRepository.findAll().size();
 
-        String data = "" + userStatistics + "," + bookingStatistics;
+        String data = userStatistics + "," + bookingStatistics;
 
-        printer.save(data);
+        saveStatistics(data);
 
         return data;
-    }
-
-    public String printStatistics() {
-
-        return "";
     }
 }
