@@ -9,8 +9,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface BookingStatisticsRepository extends MongoRepository<BookingStatistics, String>{
-
+public interface BookingStatisticsRepository extends MongoRepository<BookingStatistics, String> {
 
     List<BookingStatistics> findBookingStatisticsByIdIsAndOut(LocalDate in, LocalDate out);
 }
