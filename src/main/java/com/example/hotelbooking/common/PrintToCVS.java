@@ -2,8 +2,6 @@ package com.example.hotelbooking.common;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
