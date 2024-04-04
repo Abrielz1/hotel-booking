@@ -9,4 +9,6 @@ public interface StatisticsService {
     String sendBookingStatisticsForAllTime();
 
     String sendBookingStatisticsForTimePeriod(LocalDate start, LocalDate end);
+
+    String printStatistics();
 }

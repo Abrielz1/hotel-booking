@@ -40,10 +40,21 @@ public class StatisticsServiceImpl implements StatisticsService {
         return null;
     }
 
-    public String printStatistics(String data) {
+    public String saveStatistics() {
+
+        long userStatistics = userStatisticsRepository.findAll().size();
+
+        long bookingStatistics = bookingStatisticsRepository.findAll().size();
+
+        String data = "" + userStatistics + "," + bookingStatistics;
 
         printer.save(data);
 
         return data;
+    }
+
+    public String printStatistics() {
+
+        return "";
     }
 }

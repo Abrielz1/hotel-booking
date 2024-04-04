@@ -46,6 +46,6 @@ public class StatisticsController {
     @ResponseStatus(HttpStatus.OK)
     public String printStatisticsToFile() {
 
-        return null;
+        return bookingStatistics.printStatistics();
     }
 }

@@ -5,5 +5,5 @@ public class Links {
 
     public static final String PATH = "resources\\data.csv";
 
-    private final static String HEAD = "name,count\n";
+    public final static String HEAD = "name,count\n";
 }
