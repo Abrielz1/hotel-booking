@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +38,7 @@ public class RoomsController {
 
     @GetMapping("/find-by-criteria/")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<RoomResponseDto> findAllCriteria(
             @Positive @PathVariable(name = "hotelId") Long hotelId,
             @ModelAttribute RoomFilter filter,
@@ -50,6 +52,7 @@ public class RoomsController {
 
     @GetMapping("/{roomId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public RoomResponseDto getRoomById(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                        @Positive @PathVariable(name = "roomId") Long roomId) {
 
@@ -63,6 +66,7 @@ public class RoomsController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<RoomResponseDto> getRoomsInHotelList(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                      @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                      @Positive @RequestParam(defaultValue = "10") Integer size) {
@@ -79,6 +83,7 @@ public class RoomsController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('ADMIN')")
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                @Validated(Create.class)
                                                @RequestBody RoomNewDto newRoomInHotel) {
@@ -91,6 +96,7 @@ public class RoomsController {
 
     @PutMapping("/{roomId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public RoomResponseDto updateRoomInfoInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                  @Positive @PathVariable(name = "roomId") Long roomId,
                                                  @Validated(Update.class)
@@ -105,6 +111,7 @@ public class RoomsController {
 
     @DeleteMapping("/{roomId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public RoomResponseDto removeRoomInHotelByRoomId(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                      @Positive @PathVariable(name = "roomId") Long roomId) {
 

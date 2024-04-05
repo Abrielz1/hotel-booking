@@ -23,7 +23,12 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
-//	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.2.4")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("redis.clients:jedis")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("javax.xml.bind:jaxb-api:2.3.1")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")

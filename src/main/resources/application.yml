@@ -29,4 +29,9 @@ app:
     topicToWrite: booking-statistics
     kafkaMessageGroupId: "kafka-message-group-id"
 
+  jwt:
+    secret: "someSecretKey"
+    tokenExpiration: 3m
+    refreshTokenExpiration: 30m
+
 

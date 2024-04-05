@@ -38,3 +38,7 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=bookings_project
+  redis:
+    image: redis:7.0.12
+    ports:
+      - "6379:6379"

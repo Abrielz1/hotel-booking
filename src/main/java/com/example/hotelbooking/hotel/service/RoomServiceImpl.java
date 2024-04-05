@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ import static com.example.hotelbooking.hotel.mapper.RoomMapperManual.toRoomRespo
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
@@ -71,6 +73,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomResponseDto creatNewRoomInHotel(Long hotelId, RoomNewDto newRoomInHotel) {
 
         Hotel hotel = checkHotelInDb(hotelId);
@@ -86,6 +89,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomResponseDto updateRoomInfoInHotel(Long hotelId,
                                                  Long roomId,
                                                  RoomNewDto roomToUpdateInHotel) {
@@ -139,6 +143,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public RoomResponseDto removeRoomInHotelByRoomId(Long hotelId, Long roomId) {
         Room room = checkRoomInDb(hotelId, roomId);
         roomRepository.findById(roomId).ifPresent(roomRepository::delete);

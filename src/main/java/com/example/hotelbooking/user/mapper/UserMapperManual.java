@@ -3,10 +3,9 @@ package com.example.hotelbooking.user.mapper;
 import com.example.hotelbooking.user.enums.RoleType;
 import com.example.hotelbooking.user.model.dto.user.UserNewDto;
 import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
-import com.example.hotelbooking.user.model.entity.Role;
 import com.example.hotelbooking.user.model.entity.User;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 public class UserMapperManual {
 
@@ -16,7 +15,7 @@ public class UserMapperManual {
                 .username(newUser.getUsername())
                 .password(newUser.getPassword())
                 .email(newUser.getEmail())
-                .role(new ArrayList<>(List.of(Role.from(role))))
+                .roles(Collections.singletonList(role))
                 .bookingList(new ArrayList<>())
                 .build();
     }

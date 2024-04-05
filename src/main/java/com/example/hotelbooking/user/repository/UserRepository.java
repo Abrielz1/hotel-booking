@@ -25,4 +25,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             """, nativeQuery = true)
     Optional<User> checkByUserNameAndEmail(@Param("userName") String userName,
                                            @Param("email") String email);
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
+
+    Optional<User> findByUsername(String username);
 }

@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ public class BookingController {
     private final KafkaMessageService kafkaMessageService;
 
     @GetMapping("/bookings")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<BookingResponseDto> sendAllUserAccountsBookingList(
                                                                    @Positive @PathVariable(name = "hotelId") Long hotelId,
@@ -60,10 +62,11 @@ public class BookingController {
     }
 
     @PostMapping("/check-in")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     public BookingResponseDto createCheckIn(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                             @Positive @PathVariable(name = "roomId") Long roomId,
-                                            @Positive @RequestParam Long userId,
+                                            @Positive @RequestParam Long userId, // todo заменить на UD
                                             @NotNull @Validated(Create.class)
                                             @RequestBody BookingNewDto newCheckIn) {
 
@@ -84,6 +87,7 @@ public class BookingController {
     }
 
     @GetMapping("/check-free-rooms")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                                       @Positive @PathVariable(name = "roomId") Long roomId,
@@ -99,6 +103,7 @@ public class BookingController {
     }
 
     @GetMapping("/check-occupied-rooms")
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     public List<BookingResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel (@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                                                @Positive @PathVariable(name = "roomId") Long roomId,

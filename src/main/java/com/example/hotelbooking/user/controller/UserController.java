@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,11 +30,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-
     private final UserService userService;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponseDto> sendAllUserAccountsList(@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                          @Positive @RequestParam(defaultValue = "10") Integer size) {
 
@@ -45,6 +46,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public UserResponseDto sendUsersAccountByUserId(@Positive @PathVariable(name = "userId") Long userId) {
 
         log.info(("\nUser with id: %d" +
@@ -56,6 +58,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDto updateUsersAccountByUserId(@Positive @PathVariable(name = "userId") Long userId,
                                                       @Validated(Update.class)
                                                       @RequestBody UserNewDto updatedUserAccount) {
@@ -69,6 +72,7 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDto deleteUsersAccountByUserId(@Positive @PathVariable(name = "userId") Long userId) {
 
         log.info(("\nUser with id: %d" +
@@ -80,6 +84,7 @@ public class UserController {
 
     @GetMapping("/searchUserByUserName")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDto searchUserByUsername(@RequestParam(name = "userName") String userName) {
 
         log.info(("\nUser with userName: %s" +
@@ -91,6 +96,7 @@ public class UserController {
 
     @GetMapping("/userCheck")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public UserResponseDto checkUserInDbByFullCredentials(@RequestParam(name = "userName") String userName,
                                                           @RequestParam(name = "email") String email) {
 

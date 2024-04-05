@@ -4,24 +4,23 @@ import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
 import com.example.hotelbooking.hotel.mapper.HotelMapperManual;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelNewDto;
 import com.example.hotelbooking.hotel.model.dto.hotel.HotelResponseDto;
-import com.example.hotelbooking.hotel.model.dto.room.RoomResponseDto;
 import com.example.hotelbooking.hotel.model.entity.Hotel;
 import com.example.hotelbooking.hotel.model.entity.HotelFilter;
 import com.example.hotelbooking.hotel.repository.HotelRepository;
-import com.example.hotelbooking.hotel.repository.HotelSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import static com.example.hotelbooking.hotel.mapper.HotelMapper.HOTEL_MAPPER;
 import static com.example.hotelbooking.hotel.repository.HotelSpecification.byHotelIdAndHotelNameAndCityAndAddressAndDistanceAndHotelRating;
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class HotelServiceImpl implements HotelService {
 
@@ -55,6 +54,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelResponseDto creatNewHotel(HotelNewDto newHotel) {
         log.info("\nHotel was created via hotels service at time: "
                 + LocalDateTime.now() + "\n");
@@ -67,6 +67,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelResponseDto updateHotelInfo(Long hotelId, HotelNewDto hotelToUpdate) {
 
         Hotel hotelToUpdateFromDb = checkHotelInDb(hotelId);
@@ -102,6 +103,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelResponseDto removeHotelByHotellId(Long hotelId) {
 
         Hotel hotelToRemove = checkHotelInDb(hotelId);
@@ -114,6 +116,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     @Override
+    @Transactional
     public HotelResponseDto updateHotelRating(Long hotelId, HotelNewDto hotelToRatingUpdate) {
 
         Hotel hotelToUpdateFromDb = checkHotelInDb(hotelId);

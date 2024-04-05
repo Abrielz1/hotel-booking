@@ -1,7 +1,6 @@
 package com.example.hotelbooking.user.service;
 
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
-import com.example.hotelbooking.user.enums.RoleType;
 import com.example.hotelbooking.user.mapper.UserMapperManual;
 import com.example.hotelbooking.user.model.dto.user.UserNewDto;
 import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
@@ -11,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +19,7 @@ import static com.example.hotelbooking.user.mapper.UserMapperManual.toUserRespon
 
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
@@ -41,19 +42,21 @@ public class UserServiceImpl implements UserService {
                 + LocalDateTime.now() + "\n");
         return toUserResponseDto(checkUserInDb(userId));
     }
+//
+//    @Override
+//    @Transactional
+//    public UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role) {
+//
+//        User userToSave = UserMapperManual.toUser(newUserAccount, role);
+//        userToSave = userRepository.save(userToSave);
+//        log.info("\nUser account was created via users service at time: "
+//                + LocalDateTime.now() + "\n");
+//
+//        return toUserResponseDto(userToSave);
+//    }
 
     @Override
-    public UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role) {
-
-        User userToSave = UserMapperManual.toUser(newUserAccount, role);
-        userToSave = userRepository.save(userToSave);
-        log.info("\nUser account was created via users service at time: "
-                + LocalDateTime.now() + "\n");
-
-        return toUserResponseDto(userToSave);
-    }
-
-    @Override
+    @Transactional
     public UserResponseDto updateUsersAccountByUserId(Long userId, UserNewDto updatedUserAccount) {
 
         User userFromDBToUpdate = checkUserInDb(userId);
@@ -83,6 +86,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponseDto deleteUsersAccountByUserId(Long userId) {
 
         User userToDeleteById = checkUserInDb(userId);
