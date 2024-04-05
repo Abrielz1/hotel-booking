@@ -62,7 +62,7 @@ public class BookingServiceImpl implements BookingService {
         checkHotelInDb(hotelId);
         Room room = checkRoomInDb(hotelId, roomId);
 
-        if (!this.checkBookingOnSelectedDate(hotelId, roomId, newCheckIn.getCheckInRoom())) {
+        if (this.checkBookingOnSelectedDate(hotelId, roomId, newCheckIn.getCheckInRoom())) {
             throw new BadRequestException("Room currently in use");
         }
 

@@ -32,7 +32,7 @@ public class StatisticsController {
         return bookingStatistics.sendBookingStatisticsForAllTime();
     }
 
-    @GetMapping("/sendBooking")
+    @GetMapping("/sendBookingForPeriod")
     @ResponseStatus(HttpStatus.OK)
     public String sendBookingStatisticsForTimePeriod(@RequestParam(name = "in") LocalDate in,
                                                      @RequestParam(name = "out") LocalDate out) {
