@@ -43,10 +43,10 @@ public class BookingServiceImpl implements BookingService {
                                                                    PageRequest page) {
 
         return bookingRepository.getAllRoomsInHotelWhichAreInUse(hotelId,
-                                                                 roomId,
-                                                                 start,
-                                                                 end,
-                                                                 page)
+                        roomId,
+                        start,
+                        end,
+                        page)
                 .stream()
                 .map(BookingMapperManual::toBookingResponseDto)
                 .collect(Collectors.toList());
@@ -61,6 +61,11 @@ public class BookingServiceImpl implements BookingService {
         User user = checkUserInDb(userId);
         checkHotelInDb(hotelId);
         Room room = checkRoomInDb(hotelId, roomId);
+
+        if (room.getDateWhenRoomWillBeOccupied() == null || room.getDateWhenRoomWillBeAvailable() == null) {
+            room.setDateWhenRoomWillBeOccupied(LocalDate.now());
+            room.setDateWhenRoomWillBeAvailable(LocalDate.now());
+        }
 
         if (this.checkBookingOnSelectedDate(hotelId, roomId, newCheckIn.getCheckInRoom())) {
             throw new BadRequestException("Room currently in use");
@@ -120,12 +125,16 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private List<Booking> checkRoomsAvailability(Long hotelId, LocalDate targetDate, PageRequest page) {
+
         return bookingRepository.getListOfRoomAvailableOnCurrentDate(hotelId, targetDate, page);
     }
 
     private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDate checkInRoom) {
 
         Room room = checkRoomInDb(hotelId, roomId);
+        if (room.getDateWhenRoomWillBeOccupied() == null || room.getDateWhenRoomWillBeAvailable() == null) {
+            return true;
+        }
         return checkInRoom.isBefore(room.getDateWhenRoomWillBeAvailable());
     }
 }
