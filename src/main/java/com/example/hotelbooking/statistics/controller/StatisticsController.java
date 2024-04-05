@@ -3,6 +3,7 @@ package com.example.hotelbooking.statistics.controller;
 import com.example.hotelbooking.statistics.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +18,9 @@ public class StatisticsController {
 
     private final StatisticsService bookingStatistics;
 
-
     @GetMapping("/sendUser")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public String getUserStatistics() {
 
         return bookingStatistics.sendUserStatistics();
@@ -27,6 +28,7 @@ public class StatisticsController {
 
     @GetMapping("/sendBooking")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public String geBookingStatistics() {
 
         return bookingStatistics.sendBookingStatisticsForAllTime();
@@ -34,6 +36,7 @@ public class StatisticsController {
 
     @GetMapping("/sendBookingForPeriod")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public String sendBookingStatisticsForTimePeriod(@RequestParam(name = "in") LocalDate in,
                                                      @RequestParam(name = "out") LocalDate out) {
 
@@ -42,6 +45,7 @@ public class StatisticsController {
 
     @GetMapping("/print")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('ADMIN')")
     public String printStatisticsToFile(@RequestParam(name = "in", required = false) LocalDate in,
                                         @RequestParam(name = "out", required = false) LocalDate out) {
 
