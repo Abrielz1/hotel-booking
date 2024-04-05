@@ -10,5 +10,5 @@ public interface StatisticsService {
 
     String sendBookingStatisticsForTimePeriod(LocalDate start, LocalDate end);
 
-    String printStatistics();
+    String printStatistics(LocalDate in, LocalDate out);
 }

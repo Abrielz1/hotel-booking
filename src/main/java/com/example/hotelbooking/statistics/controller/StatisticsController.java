@@ -42,8 +42,9 @@ public class StatisticsController {
 
     @GetMapping("/print")
     @ResponseStatus(HttpStatus.OK)
-    public String printStatisticsToFile() {
+    public String printStatisticsToFile(@RequestParam(name = "in", required = false) LocalDate in,
+                                        @RequestParam(name = "out", required = false) LocalDate out) {
 
-        return bookingStatistics.printStatistics();
+        return bookingStatistics.printStatistics(in, out);
     }
 }

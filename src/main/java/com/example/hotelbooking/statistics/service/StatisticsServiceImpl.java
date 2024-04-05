@@ -36,7 +36,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     public String sendBookingStatisticsForTimePeriod(LocalDate in, LocalDate out) {
 
-        int size = bookingStatisticsRepository.findBookingStatisticsByIdIsAndOut(in, out).size();
+        int size = bookingStatisticsRepository.findBookingStatisticsByInAndOut(in, out).size();
         return String.valueOf(size);
     }
 
@@ -45,9 +45,20 @@ public class StatisticsServiceImpl implements StatisticsService {
         printer.save(data);
     }
 
-    public String printStatistics() {
+    public String printStatistics(LocalDate in, LocalDate out) {
 
-        String data = sendUserStatistics() + "," + sendBookingStatisticsForAllTime();
+        String userAndBookingTotalData = "User accounts: " + sendUserStatistics() + "," +
+                System.lineSeparator() + "Bookings total: " + sendBookingStatisticsForAllTime() + "," + System.lineSeparator();
+
+        String bookingData = "";
+
+        if (in != null && out!= null) {
+
+            bookingData = "Bookings total on selected time period: " +  sendBookingStatisticsForTimePeriod(in, out);
+        }
+
+
+        String data = userAndBookingTotalData + System.lineSeparator() + bookingData + ";";
 
         saveStatistics(data);
 

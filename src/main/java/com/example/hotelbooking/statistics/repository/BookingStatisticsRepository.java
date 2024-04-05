@@ -11,5 +11,5 @@ import java.util.List;
 @Transactional
 public interface BookingStatisticsRepository extends MongoRepository<BookingStatistics, String> {
 
-    List<BookingStatistics> findBookingStatisticsByIdIsAndOut(LocalDate in, LocalDate out);
+    List<BookingStatistics> findBookingStatisticsByInAndOut(LocalDate in, LocalDate out);
 }
