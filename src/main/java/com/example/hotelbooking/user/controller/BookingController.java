@@ -44,8 +44,7 @@ public class BookingController {
     @GetMapping("/bookings")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
-    public List<BookingResponseDto> sendAllUserAccountsBookingList(
-                                                                   @Positive @PathVariable(name = "hotelId") Long hotelId,
+    public List<BookingResponseDto> sendAllUserAccountsBookingList(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                                    @Positive @PathVariable(name = "roomId") Long roomId,
                                                                    @RequestParam LocalDate start,
                                                                    @RequestParam LocalDate end,
@@ -66,7 +65,7 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     public BookingResponseDto createCheckIn(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                             @Positive @PathVariable(name = "roomId") Long roomId,
-                                            @Positive @RequestParam Long userId, // todo заменить на UD
+                                            @Positive @RequestParam Long userId,
                                             @NotNull @Validated(Create.class)
                                             @RequestBody BookingNewDto newCheckIn) {
 
