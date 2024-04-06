@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-
 import static com.example.hotelbooking.user.mapper.UserMapperManual.toUser;
 
 @Service
