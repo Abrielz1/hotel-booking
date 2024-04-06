@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.hotelbooking.user.mapper.UserMapperManual.toUser;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -77,6 +79,7 @@ public class SecurityService {
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
                 .build();
 
+        User user2save = toUser(createUserRequest); // todo: прикрутить
 
         user.setRoles(createUserRequest.getRoles());
         userRepository.save(user);
