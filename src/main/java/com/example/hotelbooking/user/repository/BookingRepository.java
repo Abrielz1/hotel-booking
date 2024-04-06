@@ -48,9 +48,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
           FROM bookings as b 
             join rooms as r on r.id = b.room_id
             join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId and b.check_out >= :targetDate
+          WHERE h.id = :hotelId 
+          AND r.id = :roomId
+          AND b.check_out >= :targetDate
           """, nativeQuery = true)
     List<Booking> getListOfRoomAvailableOnCurrentDate(@Param("hotelId") Long hotelId,
+                                                      @Param("roomId") Long roomId,
                                                       @Param("targetDate") LocalDate targetDate,
                                                       PageRequest page);
 
@@ -64,10 +67,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
           FROM bookings as b 
             join rooms as r on r.id = b.room_id
             join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId and b.check_in BETWEEN
+          WHERE h.id = :hotelId 
+          AND r.id = :room_id 
+          AND b.check_in BETWEEN
                  b.check_in AND :targetDate
           """, nativeQuery = true)
     List<Booking> checkRoomRoomsThatAreOccupied(@Param("hotelId") Long hotelId,
+                                                @Param("roomId") Long roomId,
                                                 @Param("targetDate") LocalDate targetDate,
                                                 PageRequest page);
 }

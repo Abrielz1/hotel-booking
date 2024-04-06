@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,9 +83,9 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId, LocalDate date, PageRequest page) {
+    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId, Long roomId, LocalDate date, PageRequest page) {
 
-        return checkRoomsAvailability(hotelId, date, page)
+        return checkRoomsAvailability(hotelId, roomId, date, page)
                 .stream()
                 .map(BookingMapperManual::toBookingResponseDto)
                 .collect(Collectors.toList());
@@ -94,20 +93,22 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingResponseDto> sendListOfThatOccupiedRoomsOfCertainHotel(Long hotelId,
+                                                                              Long roomId,
                                                                               LocalDate targetDate,
                                                                               PageRequest page) {
 
-        return checkRoomRoomsThatAreOccupied(hotelId, targetDate, page)
+        return checkRoomRoomsThatAreOccupied(hotelId, roomId, targetDate, page)
                 .stream()
                 .map(BookingMapperManual::toBookingResponseDto)
                 .collect(Collectors.toList());
     }
 
     private List<Booking> checkRoomRoomsThatAreOccupied(Long hotelId,
+                                                        Long roomId,
                                                         LocalDate targetDate,
                                                         PageRequest page) {
 
-        return bookingRepository.checkRoomRoomsThatAreOccupied(hotelId, targetDate, page);
+        return bookingRepository.checkRoomRoomsThatAreOccupied(hotelId, roomId, targetDate, page);
     }
 
     private Room checkRoomInDb(Long hotelId, Long roomId) {
@@ -128,9 +129,9 @@ public class BookingServiceImpl implements BookingService {
                 new ObjectNotFoundException("User was not present"));
     }
 
-    private List<Booking> checkRoomsAvailability(Long hotelId, LocalDate targetDate, PageRequest page) {
+    private List<Booking> checkRoomsAvailability(Long hotelId, Long roomId, LocalDate targetDate, PageRequest page) {
 
-        return bookingRepository.getListOfRoomAvailableOnCurrentDate(hotelId, targetDate, page);
+        return bookingRepository.getListOfRoomAvailableOnCurrentDate(hotelId, roomId, targetDate, page);
     }
 
     private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDate checkInRoom) {

@@ -98,7 +98,7 @@ public class BookingController {
 
         PageRequest page = PageRequest.of(from / size, size);
 
-        return bookingService.sendListOfFreeRoomsOfCertainHotel(hotelId, targetDate, page);
+        return bookingService.sendListOfFreeRoomsOfCertainHotel(hotelId, roomId, targetDate, page);
     }
 
     @GetMapping("/check-occupied-rooms")
@@ -114,6 +114,6 @@ public class BookingController {
 
         PageRequest page = PageRequest.of(from / size, size);
 
-        return bookingService.sendListOfThatOccupiedRoomsOfCertainHotel(hotelId, targetDate, page);
+        return bookingService.sendListOfThatOccupiedRoomsOfCertainHotel(hotelId, roomId, targetDate, page);
     }
 }
