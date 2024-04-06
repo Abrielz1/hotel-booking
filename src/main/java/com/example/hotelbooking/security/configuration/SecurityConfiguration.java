@@ -1,8 +1,8 @@
-package com.example.hotelbooking.securit.configuration;
+package com.example.hotelbooking.security.configuration;
 
-import com.example.hotelbooking.securit.UserDetailsServiceImpl;
-import com.example.hotelbooking.securit.jwt.JwtAuthenticationEntryPoint;
-import com.example.hotelbooking.securit.jwt.JwtTokenFilter;
+import com.example.hotelbooking.security.UserDetailsServiceImpl;
+import com.example.hotelbooking.security.jwt.JwtAuthenticationEntryPoint;
+import com.example.hotelbooking.security.jwt.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

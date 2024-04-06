@@ -1,4 +1,4 @@
-package com.example.hotelbooking.securit.configuration;
+package com.example.hotelbooking.security.configuration;
 
 import com.example.hotelbooking.user.model.dto.user.RefreshToken;
 import org.springframework.beans.factory.annotation.Value;

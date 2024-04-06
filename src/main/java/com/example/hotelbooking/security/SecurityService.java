@@ -1,10 +1,9 @@
-package com.example.hotelbooking.securit;
+package com.example.hotelbooking.security;
 
 import com.example.hotelbooking.exception.exceptions.RefreshTokenException;
-import com.example.hotelbooking.securit.jwt.JwtUtils;
+import com.example.hotelbooking.security.jwt.JwtUtils;
 import com.example.hotelbooking.user.mapper.UserMapperManual;
 import com.example.hotelbooking.user.model.dto.jwt.AuthResponse;
-import com.example.hotelbooking.user.model.dto.jwt.CreateUserRequest;
 import com.example.hotelbooking.user.model.dto.jwt.LoginRequest;
 import com.example.hotelbooking.user.model.dto.jwt.RefreshTokenRequest;
 import com.example.hotelbooking.user.model.dto.jwt.RefreshTokenResponse;

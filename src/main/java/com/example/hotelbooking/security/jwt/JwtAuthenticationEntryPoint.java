@@ -1,4 +1,4 @@
-package com.example.hotelbooking.securit.jwt;
+package com.example.hotelbooking.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

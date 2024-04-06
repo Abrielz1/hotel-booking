@@ -1,6 +1,6 @@
-package com.example.hotelbooking.securit.jwt;
+package com.example.hotelbooking.security.jwt;
 
-import com.example.hotelbooking.securit.AppUserDetails;
+import com.example.hotelbooking.security.AppUserDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

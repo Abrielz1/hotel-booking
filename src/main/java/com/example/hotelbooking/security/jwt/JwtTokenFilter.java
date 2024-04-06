@@ -1,6 +1,6 @@
-package com.example.hotelbooking.securit.jwt;
+package com.example.hotelbooking.security.jwt;
 
-import com.example.hotelbooking.securit.UserDetailsServiceImpl;
+import com.example.hotelbooking.security.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,7 @@
 package com.example.hotelbooking.user.controller;
 
 import com.example.hotelbooking.exception.exceptions.AlreadyExistsException;
-import com.example.hotelbooking.securit.SecurityService;
+import com.example.hotelbooking.security.SecurityService;
 import com.example.hotelbooking.statistics.model.KafkaMessage;
 import com.example.hotelbooking.statistics.service.KafkaMessageService;
 import com.example.hotelbooking.user.model.dto.jwt.AuthResponse;
