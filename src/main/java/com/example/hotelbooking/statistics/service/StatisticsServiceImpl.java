@@ -47,8 +47,8 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     public String printStatistics(LocalDate in, LocalDate out) {
 
-        String userAndBookingTotalData = "User accounts: " + sendUserStatistics() + "," +
-                System.lineSeparator() + "Bookings total: " + sendBookingStatisticsForAllTime() + "," + System.lineSeparator();
+        String userAndBookingTotalData = "User accounts: " + sendUserStatistics() + ";" +
+                System.lineSeparator() + "Bookings total: " + sendBookingStatisticsForAllTime() + ";" + System.lineSeparator();
 
         String bookingData = "";
 

@@ -1,13 +1,11 @@
 package com.example.hotelbooking.common;
 
 import lombok.AllArgsConstructor;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
 @AllArgsConstructor
 public class PrintToCVS {
-
 
     public static final String PATH = "output/data.csv";
 
