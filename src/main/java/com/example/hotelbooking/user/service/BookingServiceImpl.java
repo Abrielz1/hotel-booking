@@ -45,13 +45,13 @@ public class BookingServiceImpl implements BookingService {
                                                                    PageRequest page) {
 
         return bookingRepository.getAllRoomsInHotelWhichAreInUse(hotelId,
-                        roomId,
-                        start,
-                        end,
-                        page)
-                .stream()
-                .map(BookingMapperManual::toBookingResponseDto)
-                .collect(Collectors.toList());
+                                                                 roomId,
+                                                                 start,
+                                                                 end,
+                                                                 page)
+                                                .stream()
+                                                .map(BookingMapperManual::toBookingResponseDto)
+                                                .collect(Collectors.toList());
     }
 
     @Override
@@ -60,7 +60,6 @@ public class BookingServiceImpl implements BookingService {
                                             Long roomId,
                                             Long userId,
                                             BookingNewDto newCheckIn) {
-
         User user = checkUserInDb(userId);
         checkHotelInDb(hotelId);
         Room room = checkRoomInDb(hotelId, roomId);
@@ -83,7 +82,10 @@ public class BookingServiceImpl implements BookingService {
 
 
     @Override
-    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId, Long roomId, LocalDate date, PageRequest page) {
+    public List<BookingResponseDto> sendListOfFreeRoomsOfCertainHotel(Long hotelId,
+                                                                      Long roomId,
+                                                                      LocalDate date,
+                                                                      PageRequest page) {
 
         return checkRoomsAvailability(hotelId, roomId, date, page)
                 .stream()
@@ -113,6 +115,7 @@ public class BookingServiceImpl implements BookingService {
 
     private Room checkRoomInDb(Long hotelId, Long roomId) {
         log.warn("No Room in selected hotel");
+
         return roomRepository.getRoom(hotelId, roomId).orElseThrow(() ->
                 new ObjectNotFoundException("Room not present!"));
     }
@@ -125,6 +128,7 @@ public class BookingServiceImpl implements BookingService {
 
     private User checkUserInDb(Long userID) {
         log.warn("No User");
+
         return userRepository.findById(userID).orElseThrow(() ->
                 new ObjectNotFoundException("User was not present"));
     }
@@ -135,11 +139,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private Boolean checkBookingOnSelectedDate(Long hotelId, Long roomId, LocalDate checkInRoom) {
-
         Room room = checkRoomInDb(hotelId, roomId);
         if (room.getDateWhenRoomWillBeOccupied() == null || room.getDateWhenRoomWillBeAvailable() == null) {
             return true;
         }
+
         return checkInRoom.isBefore(room.getDateWhenRoomWillBeAvailable());
     }
 }

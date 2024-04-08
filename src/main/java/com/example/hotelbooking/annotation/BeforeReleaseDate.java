@@ -14,5 +14,5 @@ public @interface BeforeReleaseDate {
     Class<?>[] groups() default {};
     Class<?>[] payload() default {};
 
-    String value() default "2024-03-23";
+    String value() default "2024-04-07";
 }

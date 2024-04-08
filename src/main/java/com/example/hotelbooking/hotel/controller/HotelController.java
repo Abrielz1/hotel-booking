@@ -45,8 +45,10 @@ public class HotelController {
             @ModelAttribute HotelFilter filter,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
-
+        log.info("\nList of hotels were sent via hotels by criteria controller at time: "
+                + LocalDateTime.now() + "\n");
         PageRequest page = PageRequest.of(from / size, size);
+
         return hotelService.filteredByCriteria(filter, page);
     }
 
@@ -55,8 +57,8 @@ public class HotelController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<HotelResponseDto> getListOfHotels(@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                   @Positive @RequestParam(defaultValue = "10") Integer size) {
-
-        log.info("\nList of hotels were sent via hotels controller at time: " + LocalDateTime.now() + "\n");
+        log.info("\nList of hotels were sent via hotels controller at time: "
+                + LocalDateTime.now() + "\n");
         PageRequest page = PageRequest.of(from / size, size);
 
         return hotelService.getListOfHotels(page);
@@ -66,7 +68,6 @@ public class HotelController {
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public HotelResponseDto getHotelById(@Positive @PathVariable(name = "hotelId") Long hotelId) {
-
         log.info("\nHotel with id: %d was sent via hotels controller at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
@@ -77,7 +78,6 @@ public class HotelController {
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
     public HotelResponseDto creatNewHotel(@Validated(Create.class) @RequestBody HotelNewDto newHotel) {
-
         log.info("\nHotel was created via hotels controller at time: " + LocalDateTime.now() + "\n");
 
         return hotelService.creatNewHotel(newHotel);
@@ -89,7 +89,6 @@ public class HotelController {
     public HotelResponseDto updateHotelInfo(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                             @Validated(Update.class)
                                             @RequestBody HotelNewDto hotelToUpdate) {
-
         log.info("\nHotel with id: %d was updated via hotels controller at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
@@ -100,7 +99,6 @@ public class HotelController {
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public HotelResponseDto removeHotelByHotelId(@Positive @PathVariable(name = "hotelId") Long hotelId) {
-
         log.info("\nHotel with id: %d was deleted via hotels controller at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
 
@@ -113,9 +111,9 @@ public class HotelController {
     public HotelResponseDto updateHotelRating(@PathVariable(name = "hotelId") Long hotelId,
                                               @NotBlank @Validated(Update.class)
                                               @RequestBody HotelNewDto hotelToRatingUpdate) {
-
         log.info("\nHotel with id: %d rating was updated via hotels controller at time: ".formatted(hotelId)
                 + LocalDateTime.now() + "\n");
+
         return hotelService.updateHotelRating(hotelId, hotelToRatingUpdate);
     }
 }

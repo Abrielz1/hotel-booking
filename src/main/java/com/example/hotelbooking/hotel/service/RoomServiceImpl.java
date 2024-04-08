@@ -36,6 +36,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomResponseDto> filteredByCriteria(Long hotelId, RoomFilter filter, PageRequest page) {
         filter.setHotelId(hotelId);
+
         return roomRepository.findAll(RoomSpecification.byRoomIdRoomNameInOutDatesAnRoomPrice(filter), page)
                 .stream()
                 .map(RoomMapperManual::toRoomResponseDto)
@@ -55,7 +56,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public RoomResponseDto getRoomById(Long hotelId, Long roomId) {
-
         Hotel hotel = checkHotelInDb(hotelId);
 
         Room room = checkRoomInDb(hotelId, roomId);
@@ -75,7 +75,6 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional
     public RoomResponseDto creatNewRoomInHotel(Long hotelId, RoomNewDto newRoomInHotel) {
-
         Hotel hotel = checkHotelInDb(hotelId);
         Room newRoom = toRoom(newRoomInHotel, hotel);
         hotel.setListOfAvailableRoomsToBook(List.of(newRoom));
@@ -93,7 +92,6 @@ public class RoomServiceImpl implements RoomService {
     public RoomResponseDto updateRoomInfoInHotel(Long hotelId,
                                                  Long roomId,
                                                  RoomNewDto roomToUpdateInHotel) {
-
         Room room = checkRoomInDb(hotelId, roomId);
         Hotel hotel = checkHotelInDb(hotelId);
 

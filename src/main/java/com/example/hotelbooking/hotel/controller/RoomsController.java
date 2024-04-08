@@ -44,6 +44,9 @@ public class RoomsController {
             @ModelAttribute RoomFilter filter,
             @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Positive @RequestParam(defaultValue = "10") Integer size) {
+        log.info(("\nList of rooms in a Hotel with hotelId: %d" +
+                " was sent via rooms controller by criteria at time: ").formatted(hotelId)
+                + LocalDateTime.now() + "\n");
 
         PageRequest page = PageRequest.of(from / size, size);
 
@@ -55,7 +58,6 @@ public class RoomsController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public RoomResponseDto getRoomById(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                        @Positive @PathVariable(name = "roomId") Long roomId) {
-
         log.info(("\nHotel with hotelId: %d which containing room with roomId: %d" +
                 " was sent via rooms controller at time: ")
                 .formatted(hotelId, roomId)
@@ -70,7 +72,6 @@ public class RoomsController {
     public List<RoomResponseDto> getRoomsInHotelList(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                      @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                      @Positive @RequestParam(defaultValue = "10") Integer size) {
-
         log.info(("\nHotel with hotelId: %d which containing room in roomList" +
                 " was sent via rooms controller at time: ")
                 .formatted(hotelId)
@@ -87,7 +88,6 @@ public class RoomsController {
     public RoomResponseDto creatNewRoomInHotel(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                @Validated(Create.class)
                                                @RequestBody RoomNewDto newRoomInHotel) {
-
         log.info("\nRoom in hotel with hotelId; %d was created via rooms controller at time: "
                 .formatted(hotelId) + LocalDateTime.now() + "\n");
 
@@ -101,7 +101,6 @@ public class RoomsController {
                                                  @Positive @PathVariable(name = "roomId") Long roomId,
                                                  @Validated(Update.class)
                                                  @RequestBody RoomNewDto roomToUpdateInHotel) {
-
         log.info(("\nRoom with roomId: %d  in hotel with hotelId:" +
                 " %d was updated via rooms controller at time: ").formatted(roomId, hotelId) +
                 LocalDateTime.now() + "\n");
@@ -114,7 +113,6 @@ public class RoomsController {
     @PreAuthorize("hasRole('ADMIN')")
     public RoomResponseDto removeRoomInHotelByRoomId(@Positive @PathVariable(name = "hotelId") Long hotelId,
                                                      @Positive @PathVariable(name = "roomId") Long roomId) {
-
         log.info(("\nRoom with roomId: %d in hotel with hotelId: %d" +
                 " was deleted via rooms controller at time: ").formatted(roomId, hotelId)
                 + LocalDateTime.now() + "\n");

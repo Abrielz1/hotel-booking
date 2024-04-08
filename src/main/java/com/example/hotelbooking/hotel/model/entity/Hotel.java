@@ -49,10 +49,10 @@ public class Hotel {
     @Column(name = "distance_from_center", nullable = false)
     private Long distanceFromCenter;
 
-    @Column(name = "rating", nullable = true)
+    @Column(name = "rating")
     private Short hotelRating;
 
-    @Column(name = "votes", nullable = true)
+    @Column(name = "votes")
     private Short numberOfVotes;
 
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)

@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-import static com.example.hotelbooking.user.mapper.UserMapperManual.toUser;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +40,6 @@ public class SecurityService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthResponse authenticationUser(LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -71,24 +69,22 @@ public class SecurityService {
 
     @Transactional
     public UserResponseDto register(UserNewDto createUserRequest) {
-
         User user = User.builder()
                 .username(createUserRequest.getUsername())
                 .email(createUserRequest.getEmail())
                 .password(passwordEncoder.encode(createUserRequest.getPassword()))
                 .build();
 
-        User user2save = toUser(createUserRequest); // todo: прикрутить
-
         user.setRoles(createUserRequest.getRoles());
         userRepository.save(user);
+
         return UserMapperManual.toUserResponseDto(user);
     }
 
     @Transactional
     public RefreshTokenResponse refreshToken(RefreshTokenRequest request) {
-
         String requestTokenRefresh = request.getRefreshToken();
+
         return refreshTokenService.getByRefreshToken(requestTokenRefresh)
                 .map(refreshTokenService::checkRefreshToken)
                 .map(RefreshToken::getId)

@@ -1,4 +1,5 @@
 package com.example.hotelbooking.user.model.dto.jwt;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -68,7 +68,6 @@ public class BookingController {
                                             @Positive @RequestParam Long userId,
                                             @NotNull @Validated(Create.class)
                                             @RequestBody BookingNewDto newCheckIn) {
-
         log.info("\nCheck in user were create from bookings controller"
                 + " at time: " + LocalDateTime.now() + "\n");
 
@@ -95,7 +94,6 @@ public class BookingController {
                                                                           Integer from,
                                                                       @Positive @RequestParam(defaultValue = "10")
                                                                           Integer size) {
-
         PageRequest page = PageRequest.of(from / size, size);
 
         return bookingService.sendListOfFreeRoomsOfCertainHotel(hotelId, roomId, targetDate, page);
@@ -111,7 +109,6 @@ public class BookingController {
                                                                                    Integer from,
                                                                                @Positive @RequestParam(defaultValue = "10")
                                                                                    Integer size){
-
         PageRequest page = PageRequest.of(from / size, size);
 
         return bookingService.sendListOfThatOccupiedRoomsOfCertainHotel(hotelId, roomId, targetDate, page);

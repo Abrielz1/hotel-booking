@@ -42,6 +42,7 @@ public interface HotelSpecification {
     }
 
     static Specification<Hotel> byHotelDisplayName(String hotelDisplayName) {
+
         return (root, query, cb) -> {
 
             if (hotelDisplayName == null) {
@@ -53,6 +54,7 @@ public interface HotelSpecification {
     }
 
     static Specification<Hotel> byCity(String city) {
+
         return (root, query, cb) -> {
 
             if (city == null) {
@@ -64,6 +66,7 @@ public interface HotelSpecification {
     }
 
     static Specification<Hotel> byHotelAddress(String hotelAddress) {
+
         return (root, query, cb) -> {
 
             if (hotelAddress == null) {
@@ -75,6 +78,7 @@ public interface HotelSpecification {
     }
 
     static Specification<Hotel> byDistanceFromCenter(Long distanceFromCenter) {
+
         return (root, query, cb) -> {
 
             if (distanceFromCenter == null) {
@@ -86,6 +90,7 @@ public interface HotelSpecification {
     }
 
     static Specification<Hotel> byHotelRatingAndNumberOfVotes(Short hotelRating, Short numberOfVotes) {
+
         return (root, query, cb) -> {
 
             if (hotelRating == null) {

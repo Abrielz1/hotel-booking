@@ -14,17 +14,17 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query(value = """
             SELECT
-             b.id,                        
+             b.id,
              b.check_in,
-             b.check_out, 
-             b.room_id, 
-             b.user_id  
-            FROM
-             bookings as b 
-            join rooms as r on r.id = b.room_id
-            join hotels as h on h.id = r.hotel_id
+             b.check_out,
+             b.room_id,
+             b.user_id
+             FROM
+            bookings AS b
+               JOIN rooms AS r ON r.id = b.room_id
+               JOIN hotels AS h ON h.id = r.hotel_id
             WHERE
-             h.id = :hotelId 
+             h.id = :hotelId
             AND
              r.id = :roomId
             AND
@@ -39,39 +39,40 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                                                   PageRequest page);
 
     @Query(value = """
-          SELECT 
-             b.id,                        
-             b.check_in,
-             b.check_out, 
-             b.room_id, 
-             b.user_id   
-          FROM bookings as b 
-            join rooms as r on r.id = b.room_id
-            join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId 
-          AND r.id = :roomId
-          AND b.check_out >= :targetDate
-          """, nativeQuery = true)
+            SELECT
+               b.id,
+               b.check_in,
+               b.check_out,
+               b.room_id,
+               b.user_id
+               FROM bookings AS b
+               JOIN rooms AS r ON r.id = b.room_id
+              JOIN hotels AS h ON h.id = r.hotel_id
+            WHERE h.id = :hotelId
+            AND r.id = :roomId
+            AND b.check_out >= :targetDate
+            """, nativeQuery = true)
     List<Booking> getListOfRoomAvailableOnCurrentDate(@Param("hotelId") Long hotelId,
                                                       @Param("roomId") Long roomId,
                                                       @Param("targetDate") LocalDate targetDate,
                                                       PageRequest page);
 
     @Query(value = """
-          SELECT 
-             b.id,                        
-             b.check_in,
-             b.check_out, 
-             b.room_id, 
-             b.user_id   
-          FROM bookings as b 
-            join rooms as r on r.id = b.room_id
-            join hotels as h on h.id = r.hotel_id
-          WHERE h.id = :hotelId 
-          AND r.id = :room_id 
-          AND b.check_in BETWEEN
-                 b.check_in AND :targetDate
-          """, nativeQuery = true)
+            SELECT
+               b.id,
+               b.check_in,
+               b.check_out,
+               b.room_id,
+               b.user_id
+               FROM bookings AS b
+               JOIN rooms AS r ON r.id = b.room_id
+              JOIN hotels AS h ON H.id = r.hotel_id
+            WHERE h.id = :hotelId
+            AND r.id = :room_id
+            AND b.check_in
+             BETWEEN
+                   b.check_in AND :targetDate
+            """, nativeQuery = true)
     List<Booking> checkRoomRoomsThatAreOccupied(@Param("hotelId") Long hotelId,
                                                 @Param("roomId") Long roomId,
                                                 @Param("targetDate") LocalDate targetDate,

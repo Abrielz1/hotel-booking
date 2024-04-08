@@ -27,8 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDto> sendAllUserAccountsList(PageRequest page) {
+        log.info("\nAll users accounts list were sent via users service at time: "
+                + LocalDateTime.now() + "\n");
 
-        log.info("\nAll users accounts list were sent via users service at time: " + LocalDateTime.now() + "\n");
         return userRepository.findAll()
                 .stream()
                 .map(UserMapperManual::toUserResponseDto)
@@ -37,28 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto sendUsersAccountByUserId(Long userId) {
-
         log.info("\nUser account was sent with id: %d via users service at time: ".formatted(userId)
                 + LocalDateTime.now() + "\n");
+
         return toUserResponseDto(checkUserInDb(userId));
     }
-//
-//    @Override
-//    @Transactional
-//    public UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role) {
-//
-//        User userToSave = UserMapperManual.toUser(newUserAccount, role);
-//        userToSave = userRepository.save(userToSave);
-//        log.info("\nUser account was created via users service at time: "
-//                + LocalDateTime.now() + "\n");
-//
-//        return toUserResponseDto(userToSave);
-//    }
 
     @Override
     @Transactional
     public UserResponseDto updateUsersAccountByUserId(Long userId, UserNewDto updatedUserAccount) {
-
         User userFromDBToUpdate = checkUserInDb(userId);
 
         if (updatedUserAccount == null) {
@@ -100,15 +88,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto searchUserInDbByUsername(String userName) {
-
         User user = userRepository.searchNyUsername(userName).orElseThrow(() ->
                 new ObjectNotFoundException("User was not present"));
+
         return toUserResponseDto(user);
     }
 
     @Override
     public UserResponseDto checkUserNyUserNameAndEmail(String userName, String email) {
-
         User user = userRepository.checkByUserNameAndEmail(userName,email ).orElseThrow(() ->
                 new ObjectNotFoundException("User was not present"));
 
@@ -116,7 +103,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User checkUserInDb(Long userID) {
-        log.warn("No Hotel for update");
+        log.warn("No User for update");
+
         return userRepository.findById(userID).orElseThrow(() ->
                 new ObjectNotFoundException("User was not present"));
     }
