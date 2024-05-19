@@ -1,5 +1,5 @@
 package com.example.hotelbooking.common;
 
-public class Header {
+public class Links {
     public static final String HEADER = "X-News-All-Id";
 }

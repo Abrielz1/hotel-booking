@@ -1,7 +1,9 @@
 package com.example.hotelbooking.exception;
 
+import com.example.hotelbooking.exception.exceptions.AlreadyExistsException;
 import com.example.hotelbooking.exception.exceptions.BadRequestException;
 import com.example.hotelbooking.exception.exceptions.ObjectNotFoundException;
+import com.example.hotelbooking.exception.exceptions.RefreshTokenException;
 import com.example.hotelbooking.exception.exceptions.UnsupportedStateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,7 +22,7 @@ public class ErrorHandler {
         return new ErrorResponse("Object not found 404", e.getMessage());
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(RefreshTokenException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerBadRequest(final BadRequestException e) {
         log.warn("400 {}", e.getMessage(), e);
@@ -34,18 +36,11 @@ public class ErrorHandler {
         return new ErrorResponse(exception.getMessage(), exception.getMessage());
     }
 
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorResponse handleIntegrityException(final ConflictException e) {
-//        log.warn("409 {}", e.getMessage(), e);
-//        return new ErrorResponse("No valid data", e.getMessage());
-//    }
-
-//    @ExceptionHandler
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorResponse handleIntegrityException(final DataAccessException e) {
-//        log.warn("409 {}", e.getMessage(), e);
-//        return new ErrorResponse("No valid data", e.getMessage());
-//    }
+    @ExceptionHandler(AlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    public ErrorResponse alreadyExistsException(final AlreadyExistsException exception) {
+        log.warn("502 {}", exception.getMessage(), exception);
+        return new ErrorResponse(exception.getMessage(), exception.getMessage());
+    }
 }
 

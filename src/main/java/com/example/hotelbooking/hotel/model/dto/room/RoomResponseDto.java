@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -16,13 +16,13 @@ public class RoomResponseDto {
 
     private String roomName;
 
-    private String RoomDescription;
+    private String roomDescription;
 
     private Short maximumRoomCapacity;
 
-    private LocalDateTime DateAndTimeWhenRoomWillBeOccupied;
+    private LocalDate dateAndWhenRoomWillBeOccupied;
 
-    private LocalDateTime DateAndTimeWhenRoomWillBeAvailable;
+    private LocalDate dateWhenRoomWillBeAvailable;
 
     private Integer roomPrice;
 }

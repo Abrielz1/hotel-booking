@@ -1,6 +1,5 @@
 package com.example.hotelbooking.user.service;
 
-import com.example.hotelbooking.user.enums.RoleType;
 import com.example.hotelbooking.user.model.dto.user.UserNewDto;
 import com.example.hotelbooking.user.model.dto.user.UserResponseDto;
 import org.springframework.data.domain.PageRequest;
@@ -12,9 +11,13 @@ public interface UserService {
 
     UserResponseDto sendUsersAccountByUserId(Long userId);
 
-    UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role);
+ //   UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role);
 
     UserResponseDto updateUsersAccountByUserId(Long userId, UserNewDto updatedUserAccount);
 
     UserResponseDto deleteUsersAccountByUserId(Long userId);
+
+    UserResponseDto searchUserInDbByUsername(String userName);
+
+    UserResponseDto checkUserNyUserNameAndEmail(String userName, String email);
 }
