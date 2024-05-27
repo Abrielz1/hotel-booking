@@ -8,7 +8,9 @@ public interface StatisticsService {
 
     String sendBookingStatisticsForAllTime();
 
-    String sendBookingStatisticsForTimePeriod(LocalDate start, LocalDate end);
+    String sendBookingStatisticsForTimePeriod(LocalDate start,
+                                              LocalDate end);
 
-    String printStatistics(LocalDate in, LocalDate out);
+    String printStatistics(LocalDate in,
+                           LocalDate out);
 }

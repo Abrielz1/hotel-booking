@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
                 " was updated via users service at time: ").formatted(userId) +
                 LocalDateTime.now() + "\n");
 
-        return toUserResponseDto(userRepository.save(userFromDBToUpdate));
+        return toUserResponseDto(userRepository.saveAndFlush(userFromDBToUpdate));
     }
 
     @Override
@@ -91,21 +91,30 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.searchNyUsername(userName).orElseThrow(() ->
                 new ObjectNotFoundException("User was not present"));
 
+        log.info("User with name: %s was present in Db".formatted(userName)
+                + LocalDateTime.now() + "\n");
+
         return toUserResponseDto(user);
     }
 
     @Override
     public UserResponseDto checkUserNyUserNameAndEmail(String userName, String email) {
-        User user = userRepository.checkByUserNameAndEmail(userName,email ).orElseThrow(() ->
-                new ObjectNotFoundException("User was not present"));
+
+        User user = userRepository.checkByUserNameAndEmail(userName, email).orElseThrow(() ->
+                new ObjectNotFoundException(("User with name: %s" +
+                        " and email: %s was not present in Db").formatted(userName, email)));
+
+        log.info("User with name: %s and email: %s was present in Db".formatted(userName, email)
+                + LocalDateTime.now() + "\n");
 
         return toUserResponseDto(user);
     }
 
-    private User checkUserInDb(Long userID) {
-        log.warn("No User for update");
+    private User checkUserInDb(Long userId) {
+        log.info("User with id: %d was fond in db".formatted(userId)
+                + LocalDateTime.now() + "\n");
 
-        return userRepository.findById(userID).orElseThrow(() ->
-                new ObjectNotFoundException("User was not present"));
+        return userRepository.findById(userId).orElseThrow(() ->
+                new ObjectNotFoundException("User with id: %d was not present in Db".formatted(userId)));
     }
 }

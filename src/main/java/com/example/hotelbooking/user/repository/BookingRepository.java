@@ -47,7 +47,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                b.user_id
                FROM bookings AS b
                JOIN rooms AS r ON r.id = b.room_id
-              JOIN hotels AS h ON h.id = r.hotel_id
+               JOIN hotels AS h ON h.id = r.hotel_id
             WHERE h.id = :hotelId
             AND r.id = :roomId
             AND b.check_out >= :targetDate
@@ -66,9 +66,9 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                b.user_id
                FROM bookings AS b
                JOIN rooms AS r ON r.id = b.room_id
-              JOIN hotels AS h ON H.id = r.hotel_id
+               JOIN hotels AS h ON H.id = r.hotel_id
             WHERE h.id = :hotelId
-            AND r.id = :room_id
+            AND r.id = :roomId
             AND b.check_in
              BETWEEN
                    b.check_in AND :targetDate
