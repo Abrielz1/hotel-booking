@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface HotelService {
 
-    List<HotelResponseDto> filteredByCriteria(HotelFilter filter, PageRequest page);
+    List<HotelResponseDto> filteredByCriteria(HotelFilter filter,
+                                              PageRequest page);
 
     List<HotelResponseDto> getListOfHotels(PageRequest page);
 
@@ -16,9 +17,11 @@ public interface HotelService {
 
     HotelResponseDto creatNewHotel(HotelNewDto newHotel);
 
-    HotelResponseDto updateHotelInfo(Long hotelId, HotelNewDto hotelToUpdate);
+    HotelResponseDto updateHotelInfo(Long hotelId,
+                                     HotelNewDto hotelToUpdate);
 
     HotelResponseDto removeHotelByHotellId(Long hotelId);
 
-    HotelResponseDto updateHotelRating(Long hotelId, HotelNewDto hotelToRatingUpdate);
+    HotelResponseDto updateHotelRating(Long hotelId,
+                                       HotelNewDto hotelToRatingUpdate);
 }
