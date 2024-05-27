@@ -85,4 +85,4 @@
 - `[GET] /hotel-booking/statistics/print` – Выгрузка статистики в CSV файл и отправка в контроллер. Только для **Администратора**.
 
 ## Схема базы данных:
-![](https://github.com/Abrielz1/hotel-booking/db_scema.jpg)
+![](https://github.com/Abrielz1/hotel-booking/blob/master/db_scema.jpg)
