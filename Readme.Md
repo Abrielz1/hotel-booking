@@ -46,4 +46,8 @@
 
 ### Управление пользователями:
 - `[GET] /hotel-booking/users` – получить список всех пользователей с пагинацией. Только для **Администратора**
-- `[GET] /hotel-booking/users/{userId}`
+- `[GET] /hotel-booking/users/{userId}` – получить данные пользователя согласно его id для всех категорий пользователей
+
+## Схема базы данных:
+
+![](https://github.com/Abrielz1/hotel-booking/blob/5a131920a4419e0b6c140dbfc115605c69148482/db_scema.jpg)

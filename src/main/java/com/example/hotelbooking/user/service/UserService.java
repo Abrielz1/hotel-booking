@@ -11,8 +11,6 @@ public interface UserService {
 
     UserResponseDto sendUsersAccountByUserId(Long userId);
 
- //   UserResponseDto registerUserAccount(UserNewDto newUserAccount, RoleType role);
-
     UserResponseDto updateUsersAccountByUserId(Long userId, UserNewDto updatedUserAccount);
 
     UserResponseDto deleteUsersAccountByUserId(Long userId);
