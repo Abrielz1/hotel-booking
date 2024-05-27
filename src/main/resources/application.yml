@@ -15,7 +15,7 @@ spring:
       hibernate:
         format_sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    generate-ddl: true
+    generate-ddl: true
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -33,5 +33,18 @@ app:
     secret: "someSecretKey"
     tokenExpiration: 3m
     refreshTokenExpiration: 30m
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa:
+            INFO
+          JpaTransactionManager:
+            DEBUG
+        transaction:
+          INFO
+        interceptor:
+          TRACE
 
 
