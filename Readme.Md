@@ -31,8 +31,8 @@
 ### Цели проекта
 #### В этом проекте отрабатывалось практическое применение:
 * фреймворка Spring Boot
-* системы сборки Gradle
-* библиотеки Lombok для уменьшени boilerplate кода
+* системы сборки Gradle с языком Kotlin
+* библиотеки Lombok для уменьшения количества boilerplate кода
 * Docker'изация приложения
 * использование Docker-compose для упаковки в Docker образ компонентов PostgreSQL, Redis, Apache Kafka и MongoDb
 * защита с помощью Spring JWT Security
